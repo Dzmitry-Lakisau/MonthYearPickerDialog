@@ -1,0 +1,17 @@
+<resources>
+	<!-- Base application theme. -->
+	<style name="Theme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+		<!-- Primary brand color. -->
+		<item name="colorPrimary">@color/purple_200</item>
+		<item name="colorPrimaryDark">@color/purple_700</item>
+		<item name="colorAccent">@color/teal_200</item>
+		<!-- Customize your theme here. -->
+		<!-- color used for surfaces (i.e. Material "sheets"): cards, sheets, and menus -->
+		<item name="colorSurface">@color/black</item>
+		<item name="android:colorBackground">@color/black</item>
+		<!-- color of the software navigation bar -->
+		<item name="android:navigationBarColor">@color/black</item>
+		<!-- cursor color -->
+		<item name="android:colorControlActivated">@color/purple_500</item>
+	</style>
+</resources>

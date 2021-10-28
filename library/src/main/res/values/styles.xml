@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MonthPickerDialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="monthFontColorNormal">@android:color/black</item>
+        <item name="monthFontColorSelected">@android:color/black</item>
+        <item name="monthFontColorDisabled">@android:color/black</item>
+    </style>
+
+</resources>
