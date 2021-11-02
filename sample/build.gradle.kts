@@ -4,14 +4,15 @@ plugins {
 }
 
 android {
-	compileSdk = 31
+	compileSdk = Config.compileSdkVersion
 
 	defaultConfig {
-		applicationId = "com.example.sample"
-		minSdk = 23
-		targetSdk = 31
-		versionCode = 1
-		versionName = "1.0"
+		applicationId = Config.applicationId
+		minSdk = Config.minSdkVersion
+		targetSdk = Config.targetSdkVersion
+
+		versionCode = Config.versionCode
+		versionName = Config.versionName
 
 		testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 	}
@@ -34,10 +35,10 @@ android {
 dependencies {
 	implementation(project(":library"))
 
-	implementation("androidx.appcompat:appcompat:1.4.0-rc01")
-	implementation("androidx.constraintlayout:constraintlayout:2.1.1")
-	implementation("com.google.android.material:material:1.5.0-alpha05")
+	implementation(Dependencies.appCompat)
+	implementation(Dependencies.constraintLayout)
+	implementation(Dependencies.material)
 
-	testImplementation("junit:junit:4.13.2")
-	androidTestImplementation("androidx.test.ext:junit:1.1.3")
+	testImplementation(Dependencies.Test.junit)
+	androidTestImplementation(Dependencies.Test.androidxExtJunit)
 }

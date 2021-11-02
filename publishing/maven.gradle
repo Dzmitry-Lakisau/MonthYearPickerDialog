@@ -1,0 +1,100 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+
+task androidJavadocJar(type: Jar) {
+    archiveClassifier.set('javadoc')
+    from("$buildDir/javadoc")
+}
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    if (project.plugins.findPlugin("com.android.library")) {
+        from android.sourceSets.main.java.srcDirs
+        from android.sourceSets.main.kotlin.srcDirs
+    } else {
+        from sourceSets.main.java.srcDirs
+        from sourceSets.main.kotlin.srcDirs
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId Config.groupId
+            artifactId Config.artifactId
+            version Config.versionName
+
+            if (project.plugins.findPlugin("com.android.library")) {
+                artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+            } else {
+                artifact("$buildDir/libs/${project.getName()}-${version}.jar")
+            }
+
+            artifact androidJavadocJar
+            artifact androidSourcesJar
+
+            pom {
+                name = Config.libraryName
+                description = Config.libraryDescription
+                url = Config.siteUrl
+                licenses {
+                    license {
+                        name = Config.licenseName
+                        url = Config.licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id = Config.developerId
+                        name = Config.developName
+                        email = Config.developerEmail
+                        url = Config.developerUrl
+                    }
+                }
+                scm {
+                    connection = Config.connectionUrl
+                    developerConnection = Config.devConnectionUrl
+                    url = Config.siteUrl
+                }
+                withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    project.configurations.implementation.allDependencies.each {
+                        if (it.name != 'unspecified') {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', it.group)
+                            dependencyNode.appendNode('artifactId', it.name)
+                            dependencyNode.appendNode('version', it.version)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "sonatype"
+
+            def releasesRepositoryUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepositoryUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepositoryUrl : releasesRepositoryUrl
+
+            credentials {
+                username properties.getProperty('ossrhUsername')
+                password properties.getProperty('ossrhPassword')
+            }
+        }
+    }
+}
+
+signing {
+    useInMemoryPgpKeys(
+            properties.getProperty('signing.key'),
+            properties.getProperty('signing.password')
+    )
+    sign publishing.publications
+}
+
