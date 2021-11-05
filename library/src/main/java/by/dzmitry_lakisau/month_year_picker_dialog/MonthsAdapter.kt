@@ -13,11 +13,11 @@ import java.util.*
 
 internal class MonthsAdapter(private val onMonthSelectedListener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<MonthsAdapter.ViewHolder>() {
 
+    var isAnnualMode = false
     private var maxMonth = Calendar.DECEMBER
     private var minMonth = Calendar.JANUARY
-
-    var maxMonthAndYear: Date? = null
-    var minMonthAndYear: Date? = null
+    var minYear = 0
+    var maxYear = 0
 
     lateinit var monthFormat: String
 
@@ -94,55 +94,41 @@ internal class MonthsAdapter(private val onMonthSelectedListener: ((Int) -> Unit
 
     fun setSelectedYear(year: Int) {
         selectedYear = year
-        if (minMonthAndYear != null) {
-            if (!isInRange(selectedMonth)) {
-                selectedMonth = minMonthAndYear!!.month
-                onMonthSelectedListener?.invoke(selectedMonth)
+        if (!isAnnualMode) {
+            if (selectedYear == minYear) {
+                if (selectedMonth < minMonth) {
+                    selectedMonth = minMonth
+                    onMonthSelectedListener?.invoke(selectedMonth)
+                }
+                notifyItemRangeChanged(Calendar.JANUARY, Calendar.DECEMBER + 1)
+                return
             }
-            notifyDataSetChanged()
-        }
-        if (maxMonthAndYear != null) {
-            if (!isInRange(selectedMonth)) {
-                selectedMonth = maxMonthAndYear!!.month
-                onMonthSelectedListener?.invoke(selectedMonth)
+            if (selectedYear == maxYear) {
+                if (selectedMonth > maxMonth) {
+                    selectedMonth = maxMonth
+                    onMonthSelectedListener?.invoke(selectedMonth)
+                }
+                notifyItemRangeChanged(Calendar.JANUARY, Calendar.DECEMBER + 1)
             }
-            notifyDataSetChanged()
         }
     }
 
     private fun isInRange(month: Int): Boolean {
         return when {
-            minMonthAndYear == null && maxMonthAndYear == null -> {
+            isAnnualMode -> {
                 month in minMonth..maxMonth
             }
-            minMonthAndYear != null && maxMonthAndYear == null -> {
-                val calendar = Calendar.getInstance()
-                calendar.set(Calendar.YEAR, selectedYear)
-                calendar.set(Calendar.MONTH, month)
-                calendar.time > minMonthAndYear
+            minYear == maxYear -> {
+                month in minMonth..maxMonth
             }
-            minMonthAndYear == null && maxMonthAndYear != null -> {
-                val calendar = Calendar.getInstance()
-                calendar.set(Calendar.YEAR, selectedYear)
-                calendar.set(Calendar.MONTH, month)
-                calendar.time < maxMonthAndYear
+            selectedYear == maxYear -> {
+                month <= maxMonth
+            }
+            selectedYear == minYear -> {
+                month >= minMonth
             }
             else -> {
-                val minCalendar = Calendar.getInstance()
-                minCalendar.time = minMonthAndYear!!
-                val maxCalendar = Calendar.getInstance()
-                maxCalendar.time = maxMonthAndYear!!
-                when (selectedYear) {
-                    minCalendar[Calendar.YEAR] -> {
-                        month >= minMonthAndYear!!.month
-                    }
-                    maxCalendar[Calendar.YEAR] -> {
-                        month <= maxMonthAndYear!!.month
-                    }
-                    else -> {
-                        return true
-                    }
-                }
+                true
             }
         }
     }
@@ -164,9 +150,11 @@ internal class MonthsAdapter(private val onMonthSelectedListener: ((Int) -> Unit
             itemView.isSelected = item == selectedMonth
 
             itemView.setOnClickListener {
+                val oldSelectedMonth = selectedMonth
                 selectedMonth = item
-                notifyDataSetChanged()
-                onMonthSelectedListener?.invoke(item)
+                notifyItemChanged(oldSelectedMonth)
+                notifyItemChanged(selectedMonth)
+                onMonthSelectedListener?.invoke(selectedMonth)
             }
         }
     }

@@ -47,7 +47,7 @@ internal class YearsAdapter(private val onYearSelectedListener: ((Int) -> Unit)?
     fun setSelectedYear(year: Int) {
         if (year in minYear..maxYear) {
             selectedYear = year
-            notifyDataSetChanged()
+            notifyItemChanged(selectedYear)
         } else {
             throw IllegalArgumentException("Selected year is not in range")
         }
@@ -74,9 +74,11 @@ internal class YearsAdapter(private val onYearSelectedListener: ((Int) -> Unit)?
                 }
             }
             itemView.setOnClickListener {
-                selectedYear = item
-                onYearSelectedListener?.invoke(item)
-                notifyDataSetChanged()
+                if (selectedYear != item) {
+                    selectedYear = item
+                    notifyDataSetChanged()
+                    onYearSelectedListener?.invoke(item)
+                }
             }
         }
     }

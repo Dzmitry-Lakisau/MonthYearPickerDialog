@@ -57,12 +57,11 @@ class MonthYearPickerDialog private constructor(
         @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) month: Int
     ) {
 
+        private var isAnnualMode = false
         private var selectedMonth = 0
         private var selectedYear = 0
         private var minMonth = Calendar.JANUARY
         private var maxMonth = Calendar.DECEMBER
-        private var minMonthAndYear: Date? = null
-        private var maxMonthAndYear: Date? = null
         private var minYear = 1970
         private var maxYear = Calendar.getInstance()[Calendar.YEAR]
         private var monthOnly = false
@@ -85,6 +84,11 @@ class MonthYearPickerDialog private constructor(
             }
         }
 
+        fun setAnnualMode(enableAnnualMode: Boolean): Builder {
+            isAnnualMode = enableAnnualMode
+            return this
+        }
+
         /**
          * Maximum enabled month in picker (0-11 for compatibility with Calender.MONTH or
          * Calendar.JANUARY, Calendar.FEBRUARY etc).
@@ -94,11 +98,6 @@ class MonthYearPickerDialog private constructor(
          */
         fun setMaxMonth(@IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) maxMonth: Int): Builder {
             this.maxMonth = maxMonth
-            return this
-        }
-
-        fun setMaxMonthAndYear(date: Date?): Builder {
-            maxMonthAndYear = date
             return this
         }
 
@@ -127,11 +126,6 @@ class MonthYearPickerDialog private constructor(
             } else {
                 throw IllegalArgumentException("Month should be between 0 (Calender.JANUARY) and 11 (Calendar.DECEMBER)")
             }
-        }
-
-        fun setMinMonthAndYear(date: Date?): Builder {
-            minMonthAndYear = date
-            return this
         }
 
         /**
@@ -304,10 +298,12 @@ class MonthYearPickerDialog private constructor(
         }
 
         fun build(): MonthYearPickerDialog {
+            /** TODO fix and add checks
             require(minMonth <= maxMonth) { "Minimum month should always smaller then maximum month." }
             require(minYear <= maxYear) { "Minimum year should always smaller then maximum year." }
             require(!(selectedMonth < minMonth || selectedMonth > maxMonth)) { "Selected month should always in between minimum and maximum month." }
             require(!(selectedYear < minYear || selectedYear > maxYear)) { "Selected year should always in between minimum year and maximum year." }
+             */
 
             val monthYearPickerDialog = MonthYearPickerDialog(context, themeResId, onDateSetListener, selectedYear, selectedMonth)
             val monthYearPickerView = monthYearPickerDialog.monthYearPickerView
@@ -323,13 +319,12 @@ class MonthYearPickerDialog private constructor(
                 maxMonth = 0
                 selectedMonth = 0
             }
+            monthYearPickerView.setAnnualMode(isAnnualMode)
             monthYearPickerView.setMonthFormat(monthFormat)
             monthYearPickerView.setMinMonth(minMonth)
             monthYearPickerView.setMaxMonth(maxMonth)
             monthYearPickerView.setMinYear(minYear)
             monthYearPickerView.setMaxYear(maxYear)
-            monthYearPickerView.setMinMonthAndYear(minMonthAndYear)
-            monthYearPickerView.setMaxMonthAndYear(maxMonthAndYear)
             monthYearPickerView.setSelectedMonth(selectedMonth)
             monthYearPickerView.setSelectedYear(selectedYear)
             monthYearPickerView.setOnMonthChangedListener(onMonthChangedListener)

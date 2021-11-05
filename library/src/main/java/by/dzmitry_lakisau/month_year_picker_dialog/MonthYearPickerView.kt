@@ -53,6 +53,10 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         monthsAdapter.setSelectedYear(year)
     }
 
+    fun setAnnualMode(enableAnnualMode: Boolean) {
+        monthsAdapter.isAnnualMode = enableAnnualMode
+    }
+
     fun setMaxMonth(maxMonth: Int) {
         if (maxMonth <= Calendar.DECEMBER && maxMonth >= Calendar.JANUARY) {
             monthsAdapter.setMaxMonth(maxMonth)
@@ -61,14 +65,8 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         }
     }
 
-    fun setMaxMonthAndYear(date: Date?) {
-        monthsAdapter.maxMonthAndYear = date
-        if (date != null) {
-            yearsAdapter.maxYear = Calendar.getInstance().apply { time = date }[Calendar.YEAR]
-        }
-    }
-
     fun setMaxYear(maxYear: Int) {
+        monthsAdapter.maxYear = maxYear
         yearsAdapter.maxYear = maxYear
     }
 
@@ -80,14 +78,8 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         }
     }
 
-    fun setMinMonthAndYear(date: Date?) {
-        monthsAdapter.minMonthAndYear = date
-        if (date != null) {
-            yearsAdapter.minYear = Calendar.getInstance().apply { time = date }[Calendar.YEAR]
-        }
-    }
-
     fun setMinYear(minYear: Int) {
+        monthsAdapter.minYear = minYear
         yearsAdapter.minYear = minYear
     }
 
