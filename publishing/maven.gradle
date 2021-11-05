@@ -80,7 +80,7 @@ publishing {
 
             def releasesRepositoryUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             def snapshotsRepositoryUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepositoryUrl : releasesRepositoryUrl
+            url = Config.versionName.endsWith('SNAPSHOT') ? snapshotsRepositoryUrl : releasesRepositoryUrl
 
             credentials {
                 username properties.getProperty('ossrhUsername')
