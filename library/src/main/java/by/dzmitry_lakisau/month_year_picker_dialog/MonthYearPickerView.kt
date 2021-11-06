@@ -1,6 +1,7 @@
 package by.dzmitry_lakisau.month_year_picker_dialog
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerDialog.OnMonthChangedListener
 import by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerDialog.OnYearChangedListener
 import java.util.*
+import kotlin.properties.Delegates
 
 internal class MonthYearPickerView @JvmOverloads constructor(
     context: Context,
@@ -133,10 +135,30 @@ internal class MonthYearPickerView @JvmOverloads constructor(
     init {
         LayoutInflater.from(context).inflate(R.layout.view_month_year_picker, this)
 
+        lateinit var monthTextColorStateList: ColorStateList
+        var selectedMonthBackgroundColor by Delegates.notNull<Int>()
+        lateinit var yearTextColorStateList: ColorStateList
         context.withStyledAttributes(attrs, R.styleable.MonthPickerView, defStyleAttr, defStyleRes) {
             headerBackgroundColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_headerBgColor, android.R.attr.colorAccent)
             headerFontColorNormal = context.getColorFromAttribute(this, R.styleable.MonthPickerView_headerFontColorNormal, android.R.attr.textColorSecondary)
             headerFontColorSelected = context.getColorFromAttribute(this, R.styleable.MonthPickerView_headerFontColorSelected, android.R.attr.textColorPrimary)
+
+            val monthFontColorDisabled = context.getColorFromAttribute(this, R.styleable.MonthPickerView_monthFontColorDisabled, android.R.attr.textColorPrimary)
+            val monthFontColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_monthFontColorNormal, android.R.attr.textColorPrimary)
+            val monthFontColorSelected = context.getColorFromAttribute(this, R.styleable.MonthPickerView_monthFontColorSelected, android.R.attr.colorAccent)
+            val states = arrayOf(
+                intArrayOf(-android.R.attr.state_enabled),
+                intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_selected),
+                intArrayOf(android.R.attr.state_enabled, android.R.attr.state_selected),
+            )
+            val colors = intArrayOf(monthFontColorDisabled, monthFontColor, monthFontColorSelected)
+            monthTextColorStateList = ColorStateList(states, colors)
+
+            selectedMonthBackgroundColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_selectedMonthBackgroundColor, android.R.attr.colorAccent)
+
+            val yearColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_yearColor, android.R.attr.textColorPrimary)
+            val yearSelectedColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_yearSelectedColor, android.R.attr.colorAccent)
+            yearTextColorStateList = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_selected), intArrayOf(android.R.attr.state_selected)), intArrayOf(yearColor, yearSelectedColor))
         }
 
         rvMonths = findViewById(R.id.rv_months)
@@ -150,7 +172,7 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         tvSelectedYear.setTextColor(headerFontColorNormal)
         header.setBackgroundColor(headerBackgroundColor)
 
-        monthsAdapter = MonthsAdapter(context, attrs!!) {
+        monthsAdapter = MonthsAdapter(monthTextColorStateList) {
             selectedMonth = it
             tvSelectedMonth.text = getMonthName(it, monthFormat)
             if (!showMonthOnly) {
@@ -162,9 +184,10 @@ internal class MonthYearPickerView @JvmOverloads constructor(
             onMonthChangedListener?.onMonthChanged(it)
         }
         rvMonths.layoutManager = GridLayoutManager(context, 4)
+        rvMonths.addItemDecoration(MonthsAdapter.SelectedItemDecoration(selectedMonthBackgroundColor))
         rvMonths.adapter = monthsAdapter
 
-        yearsAdapter = YearsAdapter(context, attrs) {
+        yearsAdapter = YearsAdapter(yearTextColorStateList) {
             selectedYear = it
             monthsAdapter.setSelectedYear(it)
             tvSelectedYear.text = selectedYear.toString()

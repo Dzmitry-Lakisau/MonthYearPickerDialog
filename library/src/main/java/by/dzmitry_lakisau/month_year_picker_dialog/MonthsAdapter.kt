@@ -1,17 +1,17 @@
 package by.dzmitry_lakisau.month_year_picker_dialog
 
-import android.content.Context
 import android.content.res.ColorStateList
-import android.util.AttributeSet
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.withStyledAttributes
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import java.util.*
 
-internal class MonthsAdapter(private val onMonthSelectedListener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<MonthsAdapter.ViewHolder>() {
+internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList, private val onMonthSelectedListener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<MonthsAdapter.ViewHolder>() {
 
     var isAnnualMode = false
     private var maxMonth = Calendar.DECEMBER
@@ -35,23 +35,6 @@ internal class MonthsAdapter(private val onMonthSelectedListener: ((Int) -> Unit
         Calendar.NOVEMBER,
         Calendar.DECEMBER
     )
-
-    lateinit var colorStateList: ColorStateList
-
-    constructor(context: Context, attributeSet: AttributeSet, onMonthSelectedListener: ((Int) -> Unit)?) : this(onMonthSelectedListener) {
-        context.withStyledAttributes(attributeSet, R.styleable.MonthPickerView) {
-            val monthFontColorDisabled = context.getColorFromAttribute(this, R.styleable.MonthPickerView_monthFontColorDisabled, android.R.attr.textColorPrimary)
-            val monthFontColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_monthFontColorNormal, android.R.attr.textColorPrimary)
-            val monthFontColorSelected = context.getColorFromAttribute(this, R.styleable.MonthPickerView_monthFontColorSelected, android.R.attr.colorAccent)
-            val states = arrayOf(
-                intArrayOf(-android.R.attr.state_enabled),
-                intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_selected),
-                intArrayOf(android.R.attr.state_enabled, android.R.attr.state_selected),
-            )
-            val colors = intArrayOf(monthFontColorDisabled, monthFontColor, monthFontColorSelected)
-            colorStateList = ColorStateList(states, colors)
-        }
-    }
 
     private var selectedMonth = Calendar.getInstance()[Calendar.MONTH]
     private var selectedYear = Calendar.getInstance()[Calendar.YEAR]
@@ -138,7 +121,7 @@ internal class MonthsAdapter(private val onMonthSelectedListener: ((Int) -> Unit
         private val tvName: MaterialTextView = itemView.findViewById(R.id.tv_name)
 
         init {
-            tvName.setTextColor(colorStateList)
+            tvName.setTextColor(monthTextColorStateList)
         }
 
         fun onBindViewHolder(item: Int) {
@@ -155,6 +138,20 @@ internal class MonthsAdapter(private val onMonthSelectedListener: ((Int) -> Unit
                 notifyItemChanged(oldSelectedMonth)
                 notifyItemChanged(selectedMonth)
                 onMonthSelectedListener?.invoke(selectedMonth)
+            }
+        }
+    }
+
+    class SelectedItemDecoration(selectedMonthBackgroundColor: Int): RecyclerView.ItemDecoration() {
+
+        private val selectedMonthBackgroundPaint: Paint = Paint().apply { color = selectedMonthBackgroundColor }
+
+        override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+            parent.children.forEach { view ->
+                if (view.isSelected) {
+                    val radius = (view.height / 2).toFloat()
+                    c.drawCircle(view.left + radius, view.top + radius, radius, selectedMonthBackgroundPaint)
+                }
             }
         }
     }

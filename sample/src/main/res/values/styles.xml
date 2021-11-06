@@ -12,6 +12,7 @@
 		<item name="monthFontColorDisabled">#4F000000</item>
 		<item name="monthFontColorNormal">@color/black</item>
 		<item name="monthFontColorSelected">#FF0000</item>
+		<item name="selectedMonthBackgroundColor">#FFFF00</item>
 		<item name="yearColor">@color/black</item>
 		<item name="yearSelectedColor">#FF0000</item>
 	</style>
