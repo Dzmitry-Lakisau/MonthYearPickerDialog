@@ -53,13 +53,12 @@ class MonthYearPickerDialog private constructor(
         @StyleRes
         private val themeResId: Int,
         private val onDateSetListener: OnDateSetListener,
-        year: Int,
-        @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) month: Int
+        private var selectedYear: Int,
+        @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong())
+        private var selectedMonth: Int
     ) {
 
         private var isAnnualMode = false
-        private var selectedMonth = 0
-        private var selectedYear = 0
         private var minMonth = Calendar.JANUARY
         private var maxMonth = Calendar.DECEMBER
         private var minYear = 1970
@@ -70,19 +69,6 @@ class MonthYearPickerDialog private constructor(
         private var onYearChangedListener: OnYearChangedListener? = null
         private var onMonthChangedListener: OnMonthChangedListener? = null
         private var monthFormat: String = "LLLL"
-
-        init {
-            if (month >= Calendar.JANUARY && month <= Calendar.DECEMBER) {
-                selectedMonth = month
-            } else {
-                throw IllegalArgumentException("Month should be between 0 (Calender.JANUARY) and 11 (Calendar.DECEMBER)")
-            }
-            if (year >= minYear) {
-                selectedYear = year
-            } else {
-                throw IllegalArgumentException("Selected year should be greater than $minYear")
-            }
-        }
 
         fun setAnnualMode(enableAnnualMode: Boolean): Builder {
             isAnnualMode = enableAnnualMode
@@ -120,12 +106,8 @@ class MonthYearPickerDialog private constructor(
          * @return Builder
          */
         fun setMinMonth(@IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) minMonth: Int): Builder {
-            return if (minMonth >= Calendar.JANUARY && minMonth <= Calendar.DECEMBER) {
-                this.minMonth = minMonth
-                this
-            } else {
-                throw IllegalArgumentException("Month should be between 0 (Calender.JANUARY) and 11 (Calendar.DECEMBER)")
-            }
+            this.minMonth = minMonth
+            return this
         }
 
         /**
@@ -148,56 +130,6 @@ class MonthYearPickerDialog private constructor(
         fun setMonthFormat(format: String): Builder {
             monthFormat = format
             return this
-        }
-
-        /**
-         * Set the Minimum, maximum enabled months and starting , ending years.
-         *
-         * @param minMonth minimum enabled month in picker
-         * @param maxMonth maximum enabled month in picker
-         * @param minYear  starting year
-         * @param maxYear  ending year
-         * @return
-         */
-        fun setMonthAndYearRange(
-            @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) minMonth: Int,
-            @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) maxMonth: Int,
-            minYear: Int, maxYear: Int
-        ): Builder {
-            if (minMonth >= Calendar.JANUARY && minMonth <= Calendar.DECEMBER && maxMonth >= Calendar.JANUARY && maxMonth <= Calendar.DECEMBER) {
-                this.minMonth = minMonth
-                this.maxMonth = maxMonth
-            } else {
-                throw IllegalArgumentException("Month range should be between 0 (Calender.JANUARY) to 11 (Calendar.DECEMBER)")
-            }
-            if (minYear <= maxYear) {
-                this.minYear = minYear
-                this.maxYear = maxYear
-            } else {
-                throw IllegalArgumentException("Minimum year should be less then Maximum year")
-            }
-            return this
-        }
-
-        /**
-         * Minimum and Maximum enable month in picker (0-11 for compatibility with Calender.MONTH or
-         * Calendar.JANUARY, Calendar.FEBRUARY etc).
-         *
-         * @param minMonth minimum enabled month.
-         * @param maxMonth maximum enabled month.
-         * @return Builder
-         */
-        fun setMonthRange(
-            @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) minMonth: Int,
-            @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) maxMonth: Int
-        ): Builder {
-            return if (minMonth >= Calendar.JANUARY && minMonth <= Calendar.DECEMBER && maxMonth >= Calendar.JANUARY && maxMonth <= Calendar.DECEMBER) {
-                this.minMonth = minMonth
-                this.maxMonth = maxMonth
-                this
-            } else {
-                throw IllegalArgumentException("Month range should be between 0 (Calender.JANUARY) to 11 (Calendar.DECEMBER)")
-            }
         }
 
         /**
@@ -259,23 +191,6 @@ class MonthYearPickerDialog private constructor(
         }
 
         /**
-         * Starting and ending year show in picker
-         *
-         * @param minYear starting year
-         * @param maxYear ending year
-         * @return
-         */
-        fun setYearRange(minYear: Int, maxYear: Int): Builder {
-            return if (minYear <= maxYear) {
-                this.minYear = minYear
-                this.maxYear = maxYear
-                this
-            } else {
-                throw IllegalArgumentException("Minimum year should be less then Maximum year")
-            }
-        }
-
-        /**
          * User can select month only. Year won't be shown to user once user select the month.
          *
          * @return Builder
@@ -298,12 +213,34 @@ class MonthYearPickerDialog private constructor(
         }
 
         fun build(): MonthYearPickerDialog {
-            /** TODO fix and add checks
-            require(minMonth <= maxMonth) { "Minimum month should always smaller then maximum month." }
-            require(minYear <= maxYear) { "Minimum year should always smaller then maximum year." }
-            require(!(selectedMonth < minMonth || selectedMonth > maxMonth)) { "Selected month should always in between minimum and maximum month." }
-            require(!(selectedYear < minYear || selectedYear > maxYear)) { "Selected year should always in between minimum year and maximum year." }
-             */
+            require(minMonth >= Calendar.JANUARY && minMonth <= Calendar.DECEMBER) {
+                "Minimum month ($minMonth) should be between 0 (Calendar.JANUARY) and 11 (Calendar.DECEMBER)"
+            }
+            require(maxMonth >= Calendar.JANUARY && maxMonth <= Calendar.DECEMBER) {
+                "Maximum month ($maxMonth) should be between 0 (Calendar.JANUARY) and 11 (Calendar.DECEMBER)"
+            }
+            require(selectedMonth >= Calendar.JANUARY && selectedMonth <= Calendar.DECEMBER) {
+                "Selected month ($selectedMonth) should be between 0 (Calendar.JANUARY) and 11 (Calendar.DECEMBER)"
+            }
+
+            require(minYear <= maxYear) {
+                "Minimum year ($minYear) should always smaller than maximum year ($maxYear)"
+            }
+            require(selectedYear in minYear..maxYear) {
+                "Selected year ($selectedYear) should always in between minimum ($minYear) and maximum ($maxYear) year"
+            }
+            if (isAnnualMode || minYear == maxYear) {
+                require(minMonth <= maxMonth) {
+                    "Minimum month ($minMonth) should always be smaller than maximum month ($maxMonth)"
+                }
+                require(selectedMonth in minMonth..maxMonth) {
+                    "Selected month ($selectedMonth) should always in between minimum ($minMonth) and maximum ($maxMonth) month"
+                }
+            } else {
+                require(selectedYear * 12 + selectedMonth in minYear * 12 + minMonth..maxYear * 12 + maxMonth) {
+                    "Selected month and year ($selectedMonth.$selectedYear) is not in range from ($minMonth.$minYear) to ($maxMonth.$maxYear)"
+                }
+            }
 
             val monthYearPickerDialog = MonthYearPickerDialog(context, themeResId, onDateSetListener, selectedYear, selectedMonth)
             val monthYearPickerView = monthYearPickerDialog.monthYearPickerView

@@ -30,12 +30,8 @@ internal class YearsAdapter(private val yearTextColorStateList: ColorStateList, 
     }
 
     fun setSelectedYear(year: Int) {
-        if (year in minYear..maxYear) {
-            selectedYear = year
-            notifyItemChanged(selectedYear)
-        } else {
-            throw IllegalArgumentException("Selected year is not in range")
-        }
+        selectedYear = year
+        notifyItemChanged(selectedYear)
     }
 
     private fun getYearForPosition(position: Int): Int {

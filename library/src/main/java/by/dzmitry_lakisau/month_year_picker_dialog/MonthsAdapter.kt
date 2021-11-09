@@ -52,27 +52,15 @@ internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList
     }
 
     fun setMaxMonth(maxMonth: Int) {
-        this.maxMonth = if (maxMonth <= Calendar.DECEMBER && maxMonth >= Calendar.JANUARY) {
-            maxMonth
-        } else {
-            throw IllegalArgumentException("Month should be between 0 (Calender.JANUARY) and 11 (Calendar.DECEMBER)")
-        }
+        this.maxMonth = maxMonth
     }
 
     fun setMinMonth(minMonth: Int) {
-        this.minMonth = if (minMonth >= Calendar.JANUARY && minMonth <= Calendar.DECEMBER) {
-            minMonth
-        } else {
-            throw IllegalArgumentException("Month should be between 0 (Calender.JANUARY) and 11 (Calendar.DECEMBER)")
-        }
+        this.minMonth = minMonth
     }
 
     fun setSelectedMonth(selectedMonth: Int) {
-        if (selectedMonth >= Calendar.JANUARY && selectedMonth <= Calendar.DECEMBER) {
-            this.selectedMonth = selectedMonth
-        } else {
-            throw IllegalArgumentException("Month should be between 0 (Calender.JANUARY) and 11 (Calendar.DECEMBER)")
-        }
+        this.selectedMonth = selectedMonth
     }
 
     fun setSelectedYear(year: Int) {

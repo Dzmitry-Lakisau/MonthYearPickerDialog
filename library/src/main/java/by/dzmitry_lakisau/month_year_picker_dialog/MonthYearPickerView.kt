@@ -60,11 +60,7 @@ internal class MonthYearPickerView @JvmOverloads constructor(
     }
 
     fun setMaxMonth(maxMonth: Int) {
-        if (maxMonth <= Calendar.DECEMBER && maxMonth >= Calendar.JANUARY) {
-            monthsAdapter.setMaxMonth(maxMonth)
-        } else {
-            throw IllegalArgumentException("Month should be between 0 (Calender.JANUARY) and 11 (Calendar.DECEMBER)")
-        }
+        monthsAdapter.setMaxMonth(maxMonth)
     }
 
     fun setMaxYear(maxYear: Int) {
@@ -73,11 +69,7 @@ internal class MonthYearPickerView @JvmOverloads constructor(
     }
 
     fun setMinMonth(minMonth: Int) {
-        if (minMonth >= Calendar.JANUARY && minMonth <= Calendar.DECEMBER) {
-            monthsAdapter.setMinMonth(minMonth)
-        } else {
-            throw IllegalArgumentException("Month should be between 0 (Calender.JANUARY) and 11 (Calendar.DECEMBER)")
-        }
+        monthsAdapter.setMinMonth(minMonth)
     }
 
     fun setMinYear(minYear: Int) {
