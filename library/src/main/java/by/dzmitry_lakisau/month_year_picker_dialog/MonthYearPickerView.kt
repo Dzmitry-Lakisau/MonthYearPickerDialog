@@ -95,7 +95,6 @@ internal class MonthYearPickerView @JvmOverloads constructor(
             }
             onMonthChangedListener?.onMonthChanged(it)
         }
-        rvMonths.layoutManager = GridLayoutManager(context, 4)
         rvMonths.addItemDecoration(MonthsAdapter.SelectedItemDecoration(selectedMonthBackgroundColor))
         rvMonths.adapter = monthsAdapter
 
