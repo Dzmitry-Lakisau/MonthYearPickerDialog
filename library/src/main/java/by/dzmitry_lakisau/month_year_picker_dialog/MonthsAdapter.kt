@@ -71,16 +71,13 @@ internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList
                     selectedMonth = minMonth
                     onMonthSelectedListener?.invoke(selectedMonth)
                 }
-                notifyItemRangeChanged(Calendar.JANUARY, Calendar.DECEMBER + 1)
-                return
-            }
-            if (selectedYear == maxYear) {
+            } else if (selectedYear == maxYear) {
                 if (selectedMonth > maxMonth) {
                     selectedMonth = maxMonth
                     onMonthSelectedListener?.invoke(selectedMonth)
                 }
-                notifyItemRangeChanged(Calendar.JANUARY, Calendar.DECEMBER + 1)
             }
+            notifyItemRangeChanged(0, months.size)
         }
     }
 
