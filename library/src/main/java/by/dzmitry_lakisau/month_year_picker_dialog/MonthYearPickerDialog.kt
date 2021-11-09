@@ -13,7 +13,7 @@ class MonthYearPickerDialog private constructor(
     context: Context,
     @StyleRes
     theme: Int,
-    private val onDateSetListener: OnDateSetListener
+    private val onDateSetListener: OnDateSetListener?
 ) : AlertDialog(context, theme), DialogInterface.OnClickListener {
 
     private val monthYearPickerView: MonthYearPickerView
@@ -31,7 +31,7 @@ class MonthYearPickerDialog private constructor(
     override fun onClick(dialog: DialogInterface, which: Int) {
         if (which == BUTTON_POSITIVE) {
             monthYearPickerView.clearFocus()
-            onDateSetListener.onDateSet(monthYearPickerView.monthsAdapter.selectedMonth, monthYearPickerView.yearsAdapter.selectedYear)
+            onDateSetListener?.onDateSet(monthYearPickerView.yearsAdapter.selectedYear, monthYearPickerView.monthsAdapter.selectedMonth)
         }
     }
 
@@ -49,7 +49,7 @@ class MonthYearPickerDialog private constructor(
         private val context: Context,
         @StyleRes
         private val themeResId: Int,
-        private val onDateSetListener: OnDateSetListener,
+        private val onDateSetListener: OnDateSetListener?,
         private var selectedYear: Int,
         @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong())
         private var selectedMonth: Int
@@ -273,10 +273,10 @@ class MonthYearPickerDialog private constructor(
      */
     interface OnDateSetListener {
         /**
-         * @param selectedMonth The month that was set (0-11) for compatibility with [Calendar].
-         * @param selectedYear  The year that was set.
+         * @param year  The year that was set.
+         * @param month The month that was set (0-11) for compatibility with [Calendar].
          */
-        fun onDateSet(selectedMonth: Int, selectedYear: Int)
+        fun onDateSet(year: Int, month: Int)
     }
 
     /**

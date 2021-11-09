@@ -44,10 +44,10 @@ class MainActivity : AppCompatActivity() {
             this,
             R.style.MonthPickerDialogStyle,
             object : MonthYearPickerDialog.OnDateSetListener {
-                override fun onDateSet(selectedMonth: Int, selectedYear: Int) {
+                override fun onDateSet(year: Int, month: Int) {
                     val calendar = Calendar.getInstance()
-                    calendar.set(Calendar.YEAR, selectedYear)
-                    calendar.set(Calendar.MONTH, selectedMonth)
+                    calendar.set(Calendar.YEAR, year)
+                    calendar.set(Calendar.MONTH, month)
                     val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
                     findViewById<MaterialTextView>(R.id.tv_month_range_selected_date).text = dateString
                 }
@@ -83,10 +83,10 @@ class MainActivity : AppCompatActivity() {
             this,
             R.style.MonthPickerDialogStyle,
             object : MonthYearPickerDialog.OnDateSetListener {
-                override fun onDateSet(selectedMonth: Int, selectedYear: Int) {
+                override fun onDateSet(year: Int, month: Int) {
                     val calendar = Calendar.getInstance()
-                    calendar.set(Calendar.YEAR, selectedYear)
-                    calendar.set(Calendar.MONTH, selectedMonth)
+                    calendar.set(Calendar.YEAR, year)
+                    calendar.set(Calendar.MONTH, month)
                     val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
                     findViewById<MaterialTextView>(R.id.tv_min_month_year_selected_date).text = dateString
                 }
@@ -119,10 +119,10 @@ class MainActivity : AppCompatActivity() {
             this,
             R.style.MonthPickerDialogStyle,
             object : MonthYearPickerDialog.OnDateSetListener {
-                override fun onDateSet(selectedMonth: Int, selectedYear: Int) {
+                override fun onDateSet(year: Int, month: Int) {
                     val calendar = Calendar.getInstance()
-                    calendar.set(Calendar.YEAR, selectedYear)
-                    calendar.set(Calendar.MONTH, selectedMonth)
+                    calendar.set(Calendar.YEAR, year)
+                    calendar.set(Calendar.MONTH, month)
                     val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
                     findViewById<MaterialTextView>(R.id.tv_max_month_year_selected_date).text = dateString
                 }
@@ -155,10 +155,10 @@ class MainActivity : AppCompatActivity() {
             this,
             R.style.MonthPickerDialogStyle,
             object : MonthYearPickerDialog.OnDateSetListener {
-                override fun onDateSet(selectedMonth: Int, selectedYear: Int) {
+                override fun onDateSet(year: Int, month: Int) {
                     val calendar = Calendar.getInstance()
-                    calendar.set(Calendar.YEAR, selectedYear)
-                    calendar.set(Calendar.MONTH, selectedMonth)
+                    calendar.set(Calendar.YEAR, year)
+                    calendar.set(Calendar.MONTH, month)
                     val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
                     findViewById<MaterialTextView>(R.id.tv_min_max_month_year_selected_date).text = dateString
                 }
