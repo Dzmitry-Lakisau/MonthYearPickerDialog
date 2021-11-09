@@ -11,7 +11,8 @@ internal class YearsAdapter(private val yearTextColorStateList: ColorStateList, 
 
     var maxYear = 0
     var minYear = 0
-    private var selectedYear = 0
+    var selectedYear = 0
+        private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_year, parent, false))

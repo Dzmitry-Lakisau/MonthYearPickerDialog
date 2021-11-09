@@ -14,9 +14,13 @@ import java.util.*
 internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList, private val onMonthSelectedListener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<MonthsAdapter.ViewHolder>() {
 
     var isAnnualMode = false
-    private var maxMonth = Calendar.DECEMBER
-    private var minMonth = Calendar.JANUARY
+
+    var minMonth = Calendar.JANUARY
+    var selectedMonth = Calendar.JANUARY
+    var maxMonth = Calendar.DECEMBER
+
     var minYear = 0
+    private var selectedYear = 0
     var maxYear = 0
 
     lateinit var monthFormat: String
@@ -36,9 +40,6 @@ internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList
         Calendar.DECEMBER
     )
 
-    private var selectedMonth = Calendar.getInstance()[Calendar.MONTH]
-    private var selectedYear = Calendar.getInstance()[Calendar.YEAR]
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_month, parent, false))
     }
@@ -49,18 +50,6 @@ internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList
 
     override fun getItemCount(): Int {
         return months.size
-    }
-
-    fun setMaxMonth(maxMonth: Int) {
-        this.maxMonth = maxMonth
-    }
-
-    fun setMinMonth(minMonth: Int) {
-        this.minMonth = minMonth
-    }
-
-    fun setSelectedMonth(selectedMonth: Int) {
-        this.selectedMonth = selectedMonth
     }
 
     fun setSelectedYear(year: Int) {

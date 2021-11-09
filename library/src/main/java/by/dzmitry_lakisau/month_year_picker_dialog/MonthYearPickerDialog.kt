@@ -13,9 +13,7 @@ class MonthYearPickerDialog private constructor(
     context: Context,
     @StyleRes
     theme: Int,
-    private val onDateSetListener: OnDateSetListener,
-    year: Int,
-    monthOfYear: Int
+    private val onDateSetListener: OnDateSetListener
 ) : AlertDialog(context, theme), DialogInterface.OnClickListener {
 
     private val monthYearPickerView: MonthYearPickerView
@@ -28,13 +26,12 @@ class MonthYearPickerDialog private constructor(
         setButton(BUTTON_NEGATIVE, context.getString(android.R.string.cancel), this)
 
         monthYearPickerView = view.findViewById<View>(R.id.monthPicker) as MonthYearPickerView
-        monthYearPickerView.init(year, monthOfYear)
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
         if (which == BUTTON_POSITIVE) {
             monthYearPickerView.clearFocus()
-            onDateSetListener.onDateSet(monthYearPickerView.selectedMonth, monthYearPickerView.selectedYear)
+            onDateSetListener.onDateSet(monthYearPickerView.monthsAdapter.selectedMonth, monthYearPickerView.yearsAdapter.selectedYear)
         }
     }
 
@@ -242,7 +239,7 @@ class MonthYearPickerDialog private constructor(
                 }
             }
 
-            val monthYearPickerDialog = MonthYearPickerDialog(context, themeResId, onDateSetListener, selectedYear, selectedMonth)
+            val monthYearPickerDialog = MonthYearPickerDialog(context, themeResId, onDateSetListener)
             val monthYearPickerView = monthYearPickerDialog.monthYearPickerView
 
             if (monthOnly) {

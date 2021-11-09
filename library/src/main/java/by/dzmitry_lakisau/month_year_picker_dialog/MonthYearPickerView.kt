@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerDialog.OnMonthChangedListener
 import by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerDialog.OnYearChangedListener
-import java.util.*
 import kotlin.properties.Delegates
 
 internal class MonthYearPickerView @JvmOverloads constructor(
@@ -26,8 +25,10 @@ internal class MonthYearPickerView @JvmOverloads constructor(
     private var rvMonths: RecyclerView
     private var rvYears: RecyclerView
 
-    private var monthsAdapter: MonthsAdapter
-    private var yearsAdapter: YearsAdapter
+    var monthsAdapter: MonthsAdapter
+        private set
+    var yearsAdapter: YearsAdapter
+        private set
 
     private var tvSelectedMonth: TextView
     private var tvSelectedYear: TextView
@@ -37,92 +38,12 @@ internal class MonthYearPickerView @JvmOverloads constructor(
     private var headerFontColorNormal: Int = 0
     private var headerFontColorSelected: Int = 0
 
-    var selectedMonth = 0
-        private set
-    var selectedYear = 0
-        private set
-
     private var showMonthOnly = false
 
     private lateinit var monthFormat: String
 
     private var onMonthChangedListener: OnMonthChangedListener? = null
     private var onYearChangedListener: OnYearChangedListener? = null
-
-    fun init(year: Int, month: Int) {
-        selectedYear = year
-        selectedMonth = month
-        monthsAdapter.setSelectedYear(year)
-    }
-
-    fun setAnnualMode(enableAnnualMode: Boolean) {
-        monthsAdapter.isAnnualMode = enableAnnualMode
-    }
-
-    fun setMaxMonth(maxMonth: Int) {
-        monthsAdapter.setMaxMonth(maxMonth)
-    }
-
-    fun setMaxYear(maxYear: Int) {
-        monthsAdapter.maxYear = maxYear
-        yearsAdapter.maxYear = maxYear
-    }
-
-    fun setMinMonth(minMonth: Int) {
-        monthsAdapter.setMinMonth(minMonth)
-    }
-
-    fun setMinYear(minYear: Int) {
-        monthsAdapter.minYear = minYear
-        yearsAdapter.minYear = minYear
-    }
-
-    fun setMonthFormat(format: String) {
-        monthFormat = format
-        monthsAdapter.monthFormat = format
-    }
-
-    fun setSelectedMonth(selectedMonth: Int) {
-        monthsAdapter.setSelectedMonth(selectedMonth)
-        tvSelectedMonth.text = getMonthName(selectedMonth, monthFormat)
-    }
-
-    fun setSelectedYear(year: Int) {
-        yearsAdapter.setSelectedYear(year)
-        rvYears.post {
-            rvYears.scrollToPosition(yearsAdapter.getPositionForYear(year))
-        }
-        tvSelectedYear.text = year.toString()
-    }
-
-    fun setTitle(dialogTitle: String?) {
-        if (dialogTitle != null && dialogTitle.trim { it <= ' ' }.isNotEmpty()) {
-            tvTitle.text = dialogTitle
-            tvTitle.visibility = VISIBLE
-        } else {
-            tvTitle.visibility = GONE
-        }
-    }
-
-    fun setOnMonthChangedListener(onMonthChangedListener: OnMonthChangedListener?) {
-        this.onMonthChangedListener = onMonthChangedListener
-    }
-
-    fun setOnYearChangedListener(onYearChangedListener: OnYearChangedListener?) {
-        this.onYearChangedListener = onYearChangedListener
-    }
-
-    fun showMonthOnly() {
-        showMonthOnly = true
-        tvSelectedYear.visibility = GONE
-    }
-
-    fun showYearOnly() {
-        rvMonths.visibility = INVISIBLE
-        rvYears.visibility = VISIBLE
-        tvSelectedMonth.visibility = GONE
-        tvSelectedYear.setTextColor(headerFontColorSelected)
-    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_month_year_picker, this)
@@ -165,7 +86,6 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         header.setBackgroundColor(headerBackgroundColor)
 
         monthsAdapter = MonthsAdapter(monthTextColorStateList) {
-            selectedMonth = it
             tvSelectedMonth.text = getMonthName(it, monthFormat)
             if (!showMonthOnly) {
                 rvMonths.visibility = INVISIBLE
@@ -180,9 +100,8 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         rvMonths.adapter = monthsAdapter
 
         yearsAdapter = YearsAdapter(yearTextColorStateList) {
-            selectedYear = it
             monthsAdapter.setSelectedYear(it)
-            tvSelectedYear.text = selectedYear.toString()
+            tvSelectedYear.text = it.toString()
             tvSelectedYear.setTextColor(headerFontColorSelected)
             tvSelectedMonth.setTextColor(headerFontColorNormal)
             onYearChangedListener?.onYearChanged(it)
@@ -205,5 +124,75 @@ internal class MonthYearPickerView @JvmOverloads constructor(
                 tvSelectedMonth.setTextColor(headerFontColorNormal)
             }
         }
+    }
+
+    fun setAnnualMode(enableAnnualMode: Boolean) {
+        monthsAdapter.isAnnualMode = enableAnnualMode
+    }
+
+    fun setMaxMonth(maxMonth: Int) {
+        monthsAdapter.maxMonth = maxMonth
+    }
+
+    fun setMaxYear(maxYear: Int) {
+        monthsAdapter.maxYear = maxYear
+        yearsAdapter.maxYear = maxYear
+    }
+
+    fun setMinMonth(minMonth: Int) {
+        monthsAdapter.minMonth = minMonth
+    }
+
+    fun setMinYear(minYear: Int) {
+        monthsAdapter.minYear = minYear
+        yearsAdapter.minYear = minYear
+    }
+
+    fun setMonthFormat(format: String) {
+        monthFormat = format
+        monthsAdapter.monthFormat = format
+    }
+
+    fun setSelectedMonth(selectedMonth: Int) {
+        monthsAdapter.selectedMonth = selectedMonth
+        tvSelectedMonth.text = getMonthName(selectedMonth, monthFormat)
+    }
+
+    fun setSelectedYear(year: Int) {
+        monthsAdapter.setSelectedYear(year)
+        yearsAdapter.setSelectedYear(year)
+        rvYears.post {
+            rvYears.scrollToPosition(yearsAdapter.getPositionForYear(year))
+        }
+        tvSelectedYear.text = year.toString()
+    }
+
+    fun setTitle(dialogTitle: String?) {
+        if (dialogTitle != null && dialogTitle.trim { it <= ' ' }.isNotEmpty()) {
+            tvTitle.text = dialogTitle
+            tvTitle.visibility = VISIBLE
+        } else {
+            tvTitle.visibility = GONE
+        }
+    }
+
+    fun setOnMonthChangedListener(onMonthChangedListener: OnMonthChangedListener?) {
+        this.onMonthChangedListener = onMonthChangedListener
+    }
+
+    fun setOnYearChangedListener(onYearChangedListener: OnYearChangedListener?) {
+        this.onYearChangedListener = onYearChangedListener
+    }
+
+    fun showMonthOnly() {
+        showMonthOnly = true
+        tvSelectedYear.visibility = GONE
+    }
+
+    fun showYearOnly() {
+        rvMonths.visibility = INVISIBLE
+        rvYears.visibility = VISIBLE
+        tvSelectedMonth.visibility = GONE
+        tvSelectedYear.setTextColor(headerFontColorSelected)
     }
 }
