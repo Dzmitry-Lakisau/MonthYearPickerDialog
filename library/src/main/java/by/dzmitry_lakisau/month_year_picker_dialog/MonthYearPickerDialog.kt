@@ -49,10 +49,10 @@ class MonthYearPickerDialog private constructor(
         private val context: Context,
         @StyleRes
         private val themeResId: Int,
-        private val onDateSetListener: OnDateSetListener?,
-        private var selectedYear: Int,
+        private val onDateSetListener: OnDateSetListener? = null,
+        private var selectedYear: Int = Calendar.getInstance()[Calendar.YEAR],
         @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong())
-        private var selectedMonth: Int
+        private var selectedMonth: Int = Calendar.getInstance()[Calendar.MONTH]
     ) {
 
         private var isAnnualMode = false
@@ -148,31 +148,6 @@ class MonthYearPickerDialog private constructor(
          */
         fun setOnYearChangedListener(onYearChangedListener: OnYearChangedListener): Builder {
             this.onYearChangedListener = onYearChangedListener
-            return this
-        }
-
-        /**
-         * Initially selected month (0-11 for compatibility with Calender.MONTH or
-         * Calendar.JANUARY, Calendar.FEBRUARY etc).
-         *
-         * @param selectedMonth
-         * @return Builder
-         */
-        fun setSelectedMonth(@IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) selectedMonth: Int): Builder {
-            require(selectedMonth >= Calendar.JANUARY && selectedMonth <= Calendar.DECEMBER) { "Month should be between 0 (Calender.JANUARY) and 11 (Calendar.DECEMBER)" }
-            this.selectedMonth = selectedMonth
-            return this
-        }
-
-        /**
-         * Initially selected year (0-11 for compatibility with Calender.MONTH or
-         * Calendar.JANUARY, Calendar.FEBRUARY etc).
-         *
-         * @param selectedYear
-         * @return Builder
-         */
-        fun setSelectedYear(selectedYear: Int): Builder {
-            this.selectedYear = selectedYear
             return this
         }
 
