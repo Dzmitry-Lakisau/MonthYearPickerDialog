@@ -17,11 +17,9 @@ internal fun Context.getColorFromAttribute(typedArray: TypedArray, attribute: In
     }
 }
 
-internal fun getMonthName(month: Int, monthFormat: String): String {
-    val locale = Locale.getDefault()
-    val dateFormat = SimpleDateFormat(monthFormat, locale)
+internal fun getMonthName(month: Int, monthFormat: SimpleDateFormat): String {
     val calendar = Calendar.getInstance()
     calendar[Calendar.DAY_OF_MONTH] = 1
     calendar[Calendar.MONTH] = month
-    return dateFormat.format(calendar.time).replaceFirstChar { if (it.isLowerCase()) it.titlecase(locale) else it.toString() }
+    return monthFormat.format(calendar.time).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 }

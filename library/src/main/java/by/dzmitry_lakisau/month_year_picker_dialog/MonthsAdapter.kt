@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
+import java.text.SimpleDateFormat
 import java.util.*
 
 internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList, private val onMonthSelectedListener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<MonthsAdapter.ViewHolder>() {
@@ -23,7 +24,7 @@ internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList
     private var selectedYear = 0
     var maxYear = 0
 
-    lateinit var monthFormat: String
+    lateinit var monthFormat: SimpleDateFormat
 
     private val months = listOf(
         Calendar.JANUARY,

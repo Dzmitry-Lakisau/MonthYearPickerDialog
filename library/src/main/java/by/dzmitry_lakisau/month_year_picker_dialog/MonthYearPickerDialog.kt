@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.IntRange
 import androidx.annotation.StyleRes
+import java.text.SimpleDateFormat
 import java.util.*
 
 class MonthYearPickerDialog private constructor(
@@ -65,7 +66,7 @@ class MonthYearPickerDialog private constructor(
         private var title: String? = null
         private var onYearChangedListener: OnYearChangedListener? = null
         private var onMonthChangedListener: OnMonthChangedListener? = null
-        private var monthFormat: String = "LLLL"
+        private var monthFormat = SimpleDateFormat("LLLL", Locale.getDefault())
 
         fun setAnnualMode(enableAnnualMode: Boolean): Builder {
             isAnnualMode = enableAnnualMode
@@ -124,7 +125,18 @@ class MonthYearPickerDialog private constructor(
          * @param format
          * @return Builder
          */
-        fun setMonthFormat(format: String): Builder {
+        fun setMonthFormat(format: String, locale: Locale = Locale.getDefault()): Builder {
+            monthFormat = SimpleDateFormat(format, locale)
+            return this
+        }
+
+        /**
+         * Date format for month name.
+         *
+         * @param format
+         * @return Builder
+         */
+        fun setMonthFormat(format: SimpleDateFormat): Builder {
             monthFormat = format
             return this
         }

@@ -9,10 +9,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerDialog.OnMonthChangedListener
 import by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerDialog.OnYearChangedListener
+import java.text.SimpleDateFormat
 import kotlin.properties.Delegates
 
 internal class MonthYearPickerView @JvmOverloads constructor(
@@ -40,7 +40,7 @@ internal class MonthYearPickerView @JvmOverloads constructor(
 
     private var showMonthOnly = false
 
-    private lateinit var monthFormat: String
+    private lateinit var monthFormat: SimpleDateFormat
 
     private var onMonthChangedListener: OnMonthChangedListener? = null
     private var onYearChangedListener: OnYearChangedListener? = null
@@ -147,7 +147,7 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         yearsAdapter.minYear = minYear
     }
 
-    fun setMonthFormat(format: String) {
+    fun setMonthFormat(format: SimpleDateFormat) {
         monthFormat = format
         monthsAdapter.monthFormat = format
     }
