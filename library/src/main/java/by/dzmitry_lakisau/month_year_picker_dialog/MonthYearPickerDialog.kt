@@ -198,27 +198,27 @@ class MonthYearPickerDialog private constructor(
 
         fun build(): MonthYearPickerDialog {
             require(minMonth >= Calendar.JANUARY && minMonth <= Calendar.DECEMBER) {
-                "Minimum month ($minMonth) should be between 0 (Calendar.JANUARY) and 11 (Calendar.DECEMBER)"
+                "Minimum month ($minMonth) is not in range from 0 (Calendar.JANUARY) to 11 (Calendar.DECEMBER)"
             }
             require(maxMonth >= Calendar.JANUARY && maxMonth <= Calendar.DECEMBER) {
-                "Maximum month ($maxMonth) should be between 0 (Calendar.JANUARY) and 11 (Calendar.DECEMBER)"
+                "Maximum month ($maxMonth) is not in range from 0 (Calendar.JANUARY) to 11 (Calendar.DECEMBER)"
             }
             require(selectedMonth >= Calendar.JANUARY && selectedMonth <= Calendar.DECEMBER) {
-                "Selected month ($selectedMonth) should be between 0 (Calendar.JANUARY) and 11 (Calendar.DECEMBER)"
+                "Selected month ($selectedMonth) is not in range from 0 (Calendar.JANUARY) to 11 (Calendar.DECEMBER)"
             }
 
             require(minYear <= maxYear) {
-                "Minimum year ($minYear) should always smaller than maximum year ($maxYear)"
+                "Minimum year ($minYear) is larger than maximum year ($maxYear)"
             }
             require(selectedYear in minYear..maxYear) {
-                "Selected year ($selectedYear) should always in between minimum ($minYear) and maximum ($maxYear) year"
+                "Selected year ($selectedYear) is not in range from minimum ($minYear) to maximum ($maxYear) year"
             }
             if (isAnnualMode || minYear == maxYear) {
                 require(minMonth <= maxMonth) {
-                    "Minimum month ($minMonth) should always be smaller than maximum month ($maxMonth)"
+                    "Minimum month ($minMonth) is larger than maximum month ($maxMonth)"
                 }
                 require(selectedMonth in minMonth..maxMonth) {
-                    "Selected month ($selectedMonth) should always in between minimum ($minMonth) and maximum ($maxMonth) month"
+                    "Selected month ($selectedMonth) is not in range from minimum ($minMonth) to maximum ($maxMonth) month"
                 }
             } else {
                 require(selectedYear * 12 + selectedMonth in minYear * 12 + minMonth..maxYear * 12 + maxMonth) {
