@@ -5,8 +5,8 @@ import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +32,6 @@ internal class MonthYearPickerView @JvmOverloads constructor(
 
     private var tvSelectedMonth: TextView
     private var tvSelectedYear: TextView
-    private var tvTitle: TextView
 
     private var headerBackgroundColor: Int = 0
     private var headerFontColorNormal: Int = 0
@@ -78,12 +77,10 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         rvYears = findViewById(R.id.rv_years)
         tvSelectedMonth = findViewById(R.id.tv_selected_month)
         tvSelectedYear = findViewById(R.id.tv_selected_year)
-        tvTitle = findViewById(R.id.title)
-        val header = findViewById<LinearLayout>(R.id.header)
 
         tvSelectedMonth.setTextColor(headerFontColorSelected)
         tvSelectedYear.setTextColor(headerFontColorNormal)
-        header.setBackgroundColor(headerBackgroundColor)
+        findViewById<ConstraintLayout>(R.id.vg_header).setBackgroundColor(headerBackgroundColor)
 
         monthsAdapter = MonthsAdapter(monthTextColorStateList) {
             tvSelectedMonth.text = getMonthName(it, monthFormat)
@@ -164,15 +161,6 @@ internal class MonthYearPickerView @JvmOverloads constructor(
             rvYears.scrollToPosition(yearsAdapter.getPositionForYear(year))
         }
         tvSelectedYear.text = year.toString()
-    }
-
-    fun setTitle(dialogTitle: String?) {
-        if (dialogTitle != null && dialogTitle.trim { it <= ' ' }.isNotEmpty()) {
-            tvTitle.text = dialogTitle
-            tvTitle.visibility = VISIBLE
-        } else {
-            tvTitle.visibility = GONE
-        }
     }
 
     fun setOnMonthChangedListener(onMonthChangedListener: OnMonthChangedListener?) {

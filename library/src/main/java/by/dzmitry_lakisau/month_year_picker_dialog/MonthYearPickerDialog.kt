@@ -63,7 +63,6 @@ class MonthYearPickerDialog private constructor(
         private var maxYear = Calendar.getInstance()[Calendar.YEAR]
         private var monthOnly = false
         private var yearOnly = false
-        private var title: String? = null
         private var onYearChangedListener: OnYearChangedListener? = null
         private var onMonthChangedListener: OnMonthChangedListener? = null
         private var monthFormat = SimpleDateFormat("LLLL", Locale.getDefault())
@@ -164,17 +163,6 @@ class MonthYearPickerDialog private constructor(
         }
 
         /**
-         * Set the title to the picker.
-         *
-         * @param title
-         * @return Builder
-         */
-        fun setTitle(title: String?): Builder {
-            this.title = title
-            return this
-        }
-
-        /**
          * User can select month only. Year won't be shown to user once user select the month.
          *
          * @return Builder
@@ -250,7 +238,6 @@ class MonthYearPickerDialog private constructor(
             monthYearPickerView.setSelectedYear(selectedYear)
             monthYearPickerView.setOnMonthChangedListener(onMonthChangedListener)
             monthYearPickerView.setOnYearChangedListener(onYearChangedListener)
-            monthYearPickerView.setTitle(title?.trim { it <= ' ' })
             return monthYearPickerDialog
         }
     }
