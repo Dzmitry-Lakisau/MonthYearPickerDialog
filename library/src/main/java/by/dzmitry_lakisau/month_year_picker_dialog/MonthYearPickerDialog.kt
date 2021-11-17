@@ -61,8 +61,7 @@ class MonthYearPickerDialog private constructor(
         private var maxMonth = Calendar.DECEMBER
         private var minYear = 1970
         private var maxYear = Calendar.getInstance()[Calendar.YEAR]
-        private var monthOnly = false
-        private var yearOnly = false
+        private var mode = Mode.MONTH_AND_YEAR
         private var onYearChangedListener: OnYearChangedListener? = null
         private var onMonthChangedListener: OnMonthChangedListener? = null
         private var monthFormat = SimpleDateFormat("LLLL", Locale.getDefault())
@@ -162,25 +161,8 @@ class MonthYearPickerDialog private constructor(
             return this
         }
 
-        /**
-         * User can select month only. Year won't be shown to user once user select the month.
-         *
-         * @return Builder
-         */
-        fun showMonthOnly(): Builder {
-            yearOnly = false
-            monthOnly = true
-            return this
-        }
-
-        /**
-         * User can select year only. Month won't be shown to user once user select the month.
-         *
-         * @return Builder
-         */
-        fun showYearOnly(): Builder {
-            monthOnly = false
-            yearOnly = true
+        fun setMode(mode: Mode): Builder {
+            this.mode = mode
             return this
         }
 
@@ -217,23 +199,13 @@ class MonthYearPickerDialog private constructor(
             val monthYearPickerDialog = MonthYearPickerDialog(context, themeResId, onDateSetListener)
             val monthYearPickerView = monthYearPickerDialog.monthYearPickerView
 
-            if (monthOnly) {
-                monthYearPickerView.showMonthOnly()
-                minYear = 0
-                maxYear = 0
-                selectedYear = 0
-            } else if (yearOnly) {
-                monthYearPickerView.showYearOnly()
-                minMonth = 0
-                maxMonth = 0
-                selectedMonth = 0
-            }
             monthYearPickerView.setAnnualMode(isAnnualMode)
             monthYearPickerView.setMonthFormat(monthFormat)
             monthYearPickerView.setMinMonth(minMonth)
             monthYearPickerView.setMaxMonth(maxMonth)
             monthYearPickerView.setMinYear(minYear)
             monthYearPickerView.setMaxYear(maxYear)
+            monthYearPickerView.setMode(mode)
             monthYearPickerView.setSelectedMonth(selectedMonth)
             monthYearPickerView.setSelectedYear(selectedYear)
             monthYearPickerView.setOnMonthChangedListener(onMonthChangedListener)
@@ -274,5 +246,11 @@ class MonthYearPickerDialog private constructor(
          * @param selectedYear The year that was set.
          */
         fun onYearChanged(selectedYear: Int)
+    }
+
+    enum class Mode {
+        MONTH_ONLY,
+        YEAR_ONLY,
+        MONTH_AND_YEAR
     }
 }

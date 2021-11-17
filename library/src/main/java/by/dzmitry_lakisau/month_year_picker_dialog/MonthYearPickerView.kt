@@ -3,10 +3,11 @@ package by.dzmitry_lakisau.month_year_picker_dialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +38,7 @@ internal class MonthYearPickerView @JvmOverloads constructor(
     private var headerFontColorNormal: Int = 0
     private var headerFontColorSelected: Int = 0
 
-    private var showMonthOnly = false
+    private var mode = MonthYearPickerDialog.Mode.MONTH_AND_YEAR
 
     private lateinit var monthFormat: SimpleDateFormat
 
@@ -80,11 +81,11 @@ internal class MonthYearPickerView @JvmOverloads constructor(
 
         tvSelectedMonth.setTextColor(headerFontColorSelected)
         tvSelectedYear.setTextColor(headerFontColorNormal)
-        findViewById<ConstraintLayout>(R.id.vg_header).setBackgroundColor(headerBackgroundColor)
+        findViewById<LinearLayout>(R.id.vg_header).setBackgroundColor(headerBackgroundColor)
 
         monthsAdapter = MonthsAdapter(monthTextColorStateList) {
             tvSelectedMonth.text = getMonthName(it, monthFormat)
-            if (!showMonthOnly) {
+            if (mode != MonthYearPickerDialog.Mode.MONTH_ONLY) {
                 rvMonths.visibility = INVISIBLE
                 rvYears.visibility = VISIBLE
                 tvSelectedMonth.setTextColor(headerFontColorNormal)
@@ -144,6 +145,24 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         yearsAdapter.minYear = minYear
     }
 
+    fun setMode(mode: MonthYearPickerDialog.Mode) {
+        this.mode = mode
+        when (mode) {
+            MonthYearPickerDialog.Mode.MONTH_ONLY -> {
+                tvSelectedMonth.gravity = Gravity.CENTER
+                tvSelectedYear.visibility = GONE
+            }
+            MonthYearPickerDialog.Mode.YEAR_ONLY -> {
+                tvSelectedMonth.visibility = GONE
+                tvSelectedYear.gravity = Gravity.CENTER
+                rvMonths.visibility = INVISIBLE
+                rvYears.visibility = VISIBLE
+            }
+            MonthYearPickerDialog.Mode.MONTH_AND_YEAR -> {
+            }
+        }
+    }
+
     fun setMonthFormat(format: SimpleDateFormat) {
         monthFormat = format
         monthsAdapter.monthFormat = format
@@ -169,17 +188,5 @@ internal class MonthYearPickerView @JvmOverloads constructor(
 
     fun setOnYearChangedListener(onYearChangedListener: OnYearChangedListener?) {
         this.onYearChangedListener = onYearChangedListener
-    }
-
-    fun showMonthOnly() {
-        showMonthOnly = true
-        tvSelectedYear.visibility = GONE
-    }
-
-    fun showYearOnly() {
-        rvMonths.visibility = INVISIBLE
-        rvYears.visibility = VISIBLE
-        tvSelectedMonth.visibility = GONE
-        tvSelectedYear.setTextColor(headerFontColorSelected)
     }
 }

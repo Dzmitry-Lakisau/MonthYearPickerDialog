@@ -108,10 +108,8 @@ internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList
             itemView.isSelected = item == selectedMonth
 
             itemView.setOnClickListener {
-                val oldSelectedMonth = selectedMonth
                 selectedMonth = item
-                notifyItemChanged(oldSelectedMonth)
-                notifyItemChanged(selectedMonth)
+                notifyDataSetChanged()
                 onMonthSelectedListener?.invoke(selectedMonth)
             }
         }
