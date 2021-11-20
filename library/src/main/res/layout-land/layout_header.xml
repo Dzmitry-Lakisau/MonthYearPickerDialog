@@ -2,26 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:orientation="horizontal">
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
 	<TextView
 		android:id="@+id/tv_selected_month"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
 		android:layout_weight="1"
-		android:gravity="end"
+		android:gravity="center"
 		android:paddingHorizontal="5dp"
-		android:textSize="34sp"
-		tools:text="June" />
+		android:textSize="20sp"
+		tools:text="September" />
 
 	<TextView
 		android:id="@+id/tv_selected_year"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
 		android:layout_weight="1"
+		android:gravity="center"
 		android:paddingHorizontal="5dp"
-		android:textSize="34sp"
+		android:textSize="20sp"
 		tools:text="1993" />
 
 </LinearLayout>
