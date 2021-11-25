@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -35,8 +34,8 @@ internal class MonthYearPickerView @JvmOverloads constructor(
     private var tvSelectedYear: TextView
 
     private var headerBackgroundColor: Int = 0
-    private var headerFontColorNormal: Int = 0
-    private var headerFontColorSelected: Int = 0
+    private var headerTextColor: Int = 0
+    private var headerTextColorSelected: Int = 0
 
     private var mode = MonthYearPickerDialog.Mode.MONTH_AND_YEAR
 
@@ -46,32 +45,32 @@ internal class MonthYearPickerView @JvmOverloads constructor(
     private var onYearChangedListener: OnYearChangedListener? = null
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_month_year_picker, this)
+        inflate(context, R.layout.view_month_year_picker, this)
 
         lateinit var monthTextColorStateList: ColorStateList
-        var selectedMonthBackgroundColor by Delegates.notNull<Int>()
+        var monthBackgroundColorSelected by Delegates.notNull<Int>()
         lateinit var yearTextColorStateList: ColorStateList
-        context.withStyledAttributes(attrs, R.styleable.MonthPickerView, defStyleAttr, defStyleRes) {
-            headerBackgroundColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_headerBgColor, android.R.attr.colorAccent)
-            headerFontColorNormal = context.getColorFromAttribute(this, R.styleable.MonthPickerView_headerFontColorNormal, android.R.attr.textColorSecondary)
-            headerFontColorSelected = context.getColorFromAttribute(this, R.styleable.MonthPickerView_headerFontColorSelected, android.R.attr.textColorPrimary)
+        context.withStyledAttributes(attrs, R.styleable.MonthYearPickerDialog, defStyleAttr, defStyleRes) {
+            headerBackgroundColor = context.getColorFromAttribute(this, R.styleable.MonthYearPickerDialog_headerBackgroundColor, android.R.attr.colorAccent)
+            headerTextColor = context.getColorFromAttribute(this, R.styleable.MonthYearPickerDialog_headerTextColor, android.R.attr.textColorSecondary)
+            headerTextColorSelected = context.getColorFromAttribute(this, R.styleable.MonthYearPickerDialog_headerTextColorSelected, android.R.attr.textColorPrimary)
 
-            val monthFontColorDisabled = context.getColorFromAttribute(this, R.styleable.MonthPickerView_monthFontColorDisabled, android.R.attr.textColorPrimary)
-            val monthFontColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_monthFontColorNormal, android.R.attr.textColorPrimary)
-            val monthFontColorSelected = context.getColorFromAttribute(this, R.styleable.MonthPickerView_monthFontColorSelected, android.R.attr.colorAccent)
+            val monthTextColorDisabled = context.getColorFromAttribute(this, R.styleable.MonthYearPickerDialog_monthTextColorDisabled, android.R.attr.textColorPrimary)
+            val monthTextColor = context.getColorFromAttribute(this, R.styleable.MonthYearPickerDialog_monthTextColor, android.R.attr.textColorPrimary)
+            val monthTextColorSelected = context.getColorFromAttribute(this, R.styleable.MonthYearPickerDialog_monthTextColorSelected, android.R.attr.colorAccent)
             val states = arrayOf(
                 intArrayOf(-android.R.attr.state_enabled),
                 intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_selected),
                 intArrayOf(android.R.attr.state_enabled, android.R.attr.state_selected),
             )
-            val colors = intArrayOf(monthFontColorDisabled, monthFontColor, monthFontColorSelected)
+            val colors = intArrayOf(monthTextColorDisabled, monthTextColor, monthTextColorSelected)
             monthTextColorStateList = ColorStateList(states, colors)
 
-            selectedMonthBackgroundColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_selectedMonthBackgroundColor, android.R.attr.colorAccent)
+            monthBackgroundColorSelected = context.getColorFromAttribute(this, R.styleable.MonthYearPickerDialog_monthBackgroundColorSelected, android.R.attr.colorAccent)
 
-            val yearColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_yearColor, android.R.attr.textColorPrimary)
-            val yearSelectedColor = context.getColorFromAttribute(this, R.styleable.MonthPickerView_yearSelectedColor, android.R.attr.colorAccent)
-            yearTextColorStateList = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_selected), intArrayOf(android.R.attr.state_selected)), intArrayOf(yearColor, yearSelectedColor))
+            val yearColor = context.getColorFromAttribute(this, R.styleable.MonthYearPickerDialog_yearColor, android.R.attr.textColorPrimary)
+            val yearColorSelected = context.getColorFromAttribute(this, R.styleable.MonthYearPickerDialog_yearColorSelected, android.R.attr.colorAccent)
+            yearTextColorStateList = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_selected), intArrayOf(android.R.attr.state_selected)), intArrayOf(yearColor, yearColorSelected))
         }
 
         rvMonths = findViewById(R.id.rv_months)
@@ -79,8 +78,8 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         tvSelectedMonth = findViewById(R.id.tv_selected_month)
         tvSelectedYear = findViewById(R.id.tv_selected_year)
 
-        tvSelectedMonth.setTextColor(headerFontColorSelected)
-        tvSelectedYear.setTextColor(headerFontColorNormal)
+        tvSelectedMonth.setTextColor(headerTextColorSelected)
+        tvSelectedYear.setTextColor(headerTextColor)
         findViewById<LinearLayout>(R.id.vg_header).setBackgroundColor(headerBackgroundColor)
 
         monthsAdapter = MonthsAdapter(monthTextColorStateList) {
@@ -88,19 +87,19 @@ internal class MonthYearPickerView @JvmOverloads constructor(
             if (mode != MonthYearPickerDialog.Mode.MONTH_ONLY) {
                 rvMonths.visibility = INVISIBLE
                 rvYears.visibility = VISIBLE
-                tvSelectedMonth.setTextColor(headerFontColorNormal)
-                tvSelectedYear.setTextColor(headerFontColorSelected)
+                tvSelectedMonth.setTextColor(headerTextColor)
+                tvSelectedYear.setTextColor(headerTextColorSelected)
             }
             onMonthChangedListener?.onMonthChanged(it)
         }
-        rvMonths.addItemDecoration(MonthsAdapter.SelectedItemDecoration(selectedMonthBackgroundColor))
+        rvMonths.addItemDecoration(MonthsAdapter.SelectedItemDecoration(monthBackgroundColorSelected))
         rvMonths.adapter = monthsAdapter
 
         yearsAdapter = YearsAdapter(yearTextColorStateList) {
             monthsAdapter.setSelectedYear(it)
             tvSelectedYear.text = it.toString()
-            tvSelectedYear.setTextColor(headerFontColorSelected)
-            tvSelectedMonth.setTextColor(headerFontColorNormal)
+            tvSelectedYear.setTextColor(headerTextColorSelected)
+            tvSelectedMonth.setTextColor(headerTextColor)
             onYearChangedListener?.onYearChanged(it)
         }
         rvYears.adapter = yearsAdapter
@@ -109,16 +108,16 @@ internal class MonthYearPickerView @JvmOverloads constructor(
             if (!rvMonths.isVisible) {
                 rvYears.visibility = INVISIBLE
                 rvMonths.visibility = VISIBLE
-                tvSelectedYear.setTextColor(headerFontColorNormal)
-                tvSelectedMonth.setTextColor(headerFontColorSelected)
+                tvSelectedYear.setTextColor(headerTextColor)
+                tvSelectedMonth.setTextColor(headerTextColorSelected)
             }
         }
         tvSelectedYear.setOnClickListener {
             if (!rvYears.isVisible) {
                 rvMonths.visibility = INVISIBLE
                 rvYears.visibility = VISIBLE
-                tvSelectedYear.setTextColor(headerFontColorSelected)
-                tvSelectedMonth.setTextColor(headerFontColorNormal)
+                tvSelectedYear.setTextColor(headerTextColorSelected)
+                tvSelectedMonth.setTextColor(headerTextColor)
             }
         }
     }

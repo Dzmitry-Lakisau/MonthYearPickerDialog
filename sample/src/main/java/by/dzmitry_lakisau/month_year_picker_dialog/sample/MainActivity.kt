@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = MonthYearPickerDialog.Builder(
             this,
-            R.style.MonthPickerDialogStyle,
+            R.style.MonthYearPickerDialogStyle,
             object : MonthYearPickerDialog.OnDateSetListener {
                 override fun onDateSet(year: Int, month: Int) {
                     val calendar = Calendar.getInstance()
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = MonthYearPickerDialog.Builder(
             this,
-            R.style.MonthPickerDialogStyle,
+            R.style.MonthYearPickerDialogStyle,
             object : MonthYearPickerDialog.OnDateSetListener {
                 override fun onDateSet(year: Int, month: Int) {
                     val calendar = Calendar.getInstance()
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = MonthYearPickerDialog.Builder(
             this,
-            R.style.MonthPickerDialogStyle,
+            R.style.MonthYearPickerDialogStyle,
             object : MonthYearPickerDialog.OnDateSetListener {
                 override fun onDateSet(year: Int, month: Int) {
                     val calendar = Calendar.getInstance()
@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = MonthYearPickerDialog.Builder(
             this,
-            R.style.MonthPickerDialogStyle,
+            R.style.MonthYearPickerDialogStyle,
             object : MonthYearPickerDialog.OnDateSetListener {
                 override fun onDateSet(year: Int, month: Int) {
                     val calendar = Calendar.getInstance()

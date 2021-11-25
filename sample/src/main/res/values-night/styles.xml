@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<style name="MonthPickerDialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+	<style name="MonthYearPickerDialogStyle" parent="MonthYearPickerDialogStyle.Default">
 		<item name="android:background">@color/black</item>
 		<item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
 		<item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-		<item name="headerFontColorNormal">@color/black</item>
-		<item name="headerFontColorSelected">@color/black</item>
-		<item name="monthBgColor">@color/black</item>
+		<item name="headerTextColor">@color/black</item>
+		<item name="headerTextColorSelected">@color/black</item>
+		<item name="monthBackgroundColorSelected">@color/black</item>
 		<item name="yearColor">@color/white</item>
-		<item name="yearSelectedColor">?attr/colorAccent</item>
+		<item name="yearColorSelected">?attr/colorAccent</item>
 	</style>
 
 	<style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -17,7 +17,7 @@
 	</style>
 
 	<style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-		<item name="android:textColor">@color/purple_500</item>
+		<item name="android:textColor">#FF0000</item>
 	</style>
 
 </resources>

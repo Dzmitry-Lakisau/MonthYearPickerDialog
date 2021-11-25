@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="MonthPickerView">
 
-       <!-- Header Style -->
-        <attr name="headerTitleColor" format="color" />
-        <attr name="headerBgColor" format="color" />
-        <attr name="headerFontColorSelected" format="color" />
-        <attr name="headerFontColorNormal" format="color" />
-        <!-- Month Picker style -->
-        <attr name="monthBgColor" format="color" />
-        <attr name="monthBgSelectedColor" format="color" />
-        <attr name="monthFontColorSelected" format="color" />
-        <attr name="monthFontColorNormal" format="color" />
-        <attr name="monthFontColorDisabled" format="color" />
-        <attr name="selectedMonthBackgroundColor" format="color" />
+	<declare-styleable name="MonthYearPickerDialog">
 
-        <attr name="yearColor" format="color" />
-        <attr name="yearSelectedColor" format="color" />
+		<attr name="headerBackgroundColor" format="color" />
+		<attr name="headerTextColor" format="color" />
+		<attr name="headerTextColorSelected" format="color" />
 
-    </declare-styleable>
+		<attr name="monthBackgroundColorSelected" format="color" />
+		<attr name="monthTextColor" format="color" />
+		<attr name="monthTextColorDisabled" format="color" />
+		<attr name="monthTextColorSelected" format="color" />
+
+		<attr name="yearColor" format="color" />
+		<attr name="yearColorSelected" format="color" />
+
+	</declare-styleable>
+
 </resources>

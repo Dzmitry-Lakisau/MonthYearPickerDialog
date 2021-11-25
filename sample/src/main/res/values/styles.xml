@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<style name="MonthPickerDialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+	<style name="MonthYearPickerDialogStyle" parent="MonthYearPickerDialogStyle.Default">
 		<item name="android:background">@color/white</item>
 		<item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
 		<item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-		<item name="headerBgColor">#FF0000</item>
-		<item name="headerFontColorNormal">@color/white</item>
-		<item name="headerFontColorSelected">@color/white</item>
-		<item name="monthBgColor">@color/black</item>
-		<item name="monthFontColorDisabled">#4F000000</item>
-		<item name="monthFontColorNormal">@color/black</item>
-		<item name="monthFontColorSelected">#FF0000</item>
-		<item name="selectedMonthBackgroundColor">#FFFF00</item>
+		<item name="headerBackgroundColor">#FF0000</item>
+		<item name="headerTextColor">@color/black</item>
+		<item name="headerTextColorSelected">@color/white</item>
+		<item name="monthTextColorDisabled">#4F000000</item>
+		<item name="monthTextColor">@color/black</item>
+		<item name="monthTextColorSelected">#FF0000</item>
+		<item name="monthBackgroundColorSelected">#FFFF00</item>
 		<item name="yearColor">@color/black</item>
-		<item name="yearSelectedColor">#FF0000</item>
+		<item name="yearColorSelected">#FF0000</item>
 	</style>
 
 	<style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-		<item name="android:textColor">@color/purple_500</item>
+		<item name="android:textColor">@color/black</item>
 	</style>
 
 	<style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-		<item name="android:textColor">@color/purple_500</item>
+		<item name="android:textColor">#FF0000</item>
 	</style>
 
 </resources>

@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
-import android.view.View
 import androidx.annotation.IntRange
 import androidx.annotation.StyleRes
 import java.text.SimpleDateFormat
@@ -26,7 +25,7 @@ class MonthYearPickerDialog private constructor(
         setButton(BUTTON_POSITIVE, context.getString(android.R.string.ok), this)
         setButton(BUTTON_NEGATIVE, context.getString(android.R.string.cancel), this)
 
-        monthYearPickerView = view.findViewById<View>(R.id.monthPicker) as MonthYearPickerView
+        monthYearPickerView = view.findViewById(R.id.vg_monthYearPickerView)
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
@@ -65,6 +64,20 @@ class MonthYearPickerDialog private constructor(
         private var onYearChangedListener: OnYearChangedListener? = null
         private var onMonthChangedListener: OnMonthChangedListener? = null
         private var monthFormat = SimpleDateFormat("LLLL", Locale.getDefault())
+
+        constructor(
+            context: Context,
+            onDateSetListener: OnDateSetListener? = null,
+            selectedYear: Int = Calendar.getInstance()[Calendar.YEAR],
+            @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong())
+            selectedMonth: Int = Calendar.getInstance()[Calendar.MONTH]
+        ) : this(
+            context,
+            R.style.MonthYearPickerDialogStyle_Default,
+            onDateSetListener,
+            selectedYear,
+            selectedMonth
+        )
 
         fun setAnnualMode(enableAnnualMode: Boolean): Builder {
             isAnnualMode = enableAnnualMode

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/monthPicker"
-	style="@style/MonthPickerDialogStyle"
+	android:id="@+id/vg_monthYearPickerView"
+	style="@style/MonthYearPickerDialogStyle.Default"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content" />
