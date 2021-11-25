@@ -43,14 +43,12 @@ class MainActivity : AppCompatActivity() {
         val dialog = MonthYearPickerDialog.Builder(
             this,
             R.style.MonthYearPickerDialogStyle,
-            object : MonthYearPickerDialog.OnDateSetListener {
-                override fun onDateSet(year: Int, month: Int) {
-                    val calendar = Calendar.getInstance()
-                    calendar.set(Calendar.YEAR, year)
-                    calendar.set(Calendar.MONTH, month)
-                    val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
-                    findViewById<MaterialTextView>(R.id.tv_month_range_selected_date).text = dateString
-                }
+            { year, month ->
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, month)
+                val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
+                findViewById<MaterialTextView>(R.id.tv_month_range_selected_date).text = dateString
             },
             selectedCalendar[Calendar.YEAR],
             selectedCalendar[Calendar.MONTH]
@@ -82,14 +80,12 @@ class MainActivity : AppCompatActivity() {
         val dialog = MonthYearPickerDialog.Builder(
             this,
             R.style.MonthYearPickerDialogStyle,
-            object : MonthYearPickerDialog.OnDateSetListener {
-                override fun onDateSet(year: Int, month: Int) {
-                    val calendar = Calendar.getInstance()
-                    calendar.set(Calendar.YEAR, year)
-                    calendar.set(Calendar.MONTH, month)
-                    val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
-                    findViewById<MaterialTextView>(R.id.tv_min_month_year_selected_date).text = dateString
-                }
+            { year, month ->
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, month)
+                val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
+                findViewById<MaterialTextView>(R.id.tv_min_month_year_selected_date).text = dateString
             },
             selectedCalendar[Calendar.YEAR],
             selectedCalendar[Calendar.MONTH]
@@ -118,14 +114,12 @@ class MainActivity : AppCompatActivity() {
         val dialog = MonthYearPickerDialog.Builder(
             this,
             R.style.MonthYearPickerDialogStyle,
-            object : MonthYearPickerDialog.OnDateSetListener {
-                override fun onDateSet(year: Int, month: Int) {
-                    val calendar = Calendar.getInstance()
-                    calendar.set(Calendar.YEAR, year)
-                    calendar.set(Calendar.MONTH, month)
-                    val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
-                    findViewById<MaterialTextView>(R.id.tv_max_month_year_selected_date).text = dateString
-                }
+            { year, month ->
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, month)
+                val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
+                findViewById<MaterialTextView>(R.id.tv_max_month_year_selected_date).text = dateString
             },
             selectedCalendar[Calendar.YEAR],
             selectedCalendar[Calendar.MONTH]
@@ -154,14 +148,12 @@ class MainActivity : AppCompatActivity() {
         val dialog = MonthYearPickerDialog.Builder(
             this,
             R.style.MonthYearPickerDialogStyle,
-            object : MonthYearPickerDialog.OnDateSetListener {
-                override fun onDateSet(year: Int, month: Int) {
-                    val calendar = Calendar.getInstance()
-                    calendar.set(Calendar.YEAR, year)
-                    calendar.set(Calendar.MONTH, month)
-                    val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
-                    findViewById<MaterialTextView>(R.id.tv_min_max_month_year_selected_date).text = dateString
-                }
+            { year, month ->
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, month)
+                val dateString = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(calendar.time)
+                findViewById<MaterialTextView>(R.id.tv_min_max_month_year_selected_date).text = dateString
             },
             selectedCalendar[Calendar.YEAR],
             selectedCalendar[Calendar.MONTH]

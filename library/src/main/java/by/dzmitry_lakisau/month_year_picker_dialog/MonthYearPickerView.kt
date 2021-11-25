@@ -10,8 +10,6 @@ import android.widget.TextView
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerDialog.OnMonthChangedListener
-import by.dzmitry_lakisau.month_year_picker_dialog.MonthYearPickerDialog.OnYearChangedListener
 import java.text.SimpleDateFormat
 import kotlin.properties.Delegates
 
@@ -41,8 +39,8 @@ internal class MonthYearPickerView @JvmOverloads constructor(
 
     private lateinit var monthFormat: SimpleDateFormat
 
-    private var onMonthChangedListener: OnMonthChangedListener? = null
-    private var onYearChangedListener: OnYearChangedListener? = null
+    var onMonthSelected: ((Int) -> Unit)? = null
+    var onYearSelected: ((Int) -> Unit)? = null
 
     init {
         inflate(context, R.layout.view_month_year_picker, this)
@@ -90,7 +88,7 @@ internal class MonthYearPickerView @JvmOverloads constructor(
                 tvSelectedMonth.setTextColor(headerTextColor)
                 tvSelectedYear.setTextColor(headerTextColorSelected)
             }
-            onMonthChangedListener?.onMonthChanged(it)
+            onMonthSelected?.invoke(it)
         }
         rvMonths.addItemDecoration(MonthsAdapter.SelectedItemDecoration(monthBackgroundColorSelected))
         rvMonths.adapter = monthsAdapter
@@ -100,7 +98,7 @@ internal class MonthYearPickerView @JvmOverloads constructor(
             tvSelectedYear.text = it.toString()
             tvSelectedYear.setTextColor(headerTextColorSelected)
             tvSelectedMonth.setTextColor(headerTextColor)
-            onYearChangedListener?.onYearChanged(it)
+            onYearSelected?.invoke(it)
         }
         rvYears.adapter = yearsAdapter
 
@@ -179,13 +177,5 @@ internal class MonthYearPickerView @JvmOverloads constructor(
             rvYears.scrollToPosition(yearsAdapter.getPositionForYear(year))
         }
         tvSelectedYear.text = year.toString()
-    }
-
-    fun setOnMonthChangedListener(onMonthChangedListener: OnMonthChangedListener?) {
-        this.onMonthChangedListener = onMonthChangedListener
-    }
-
-    fun setOnYearChangedListener(onYearChangedListener: OnYearChangedListener?) {
-        this.onYearChangedListener = onYearChangedListener
     }
 }

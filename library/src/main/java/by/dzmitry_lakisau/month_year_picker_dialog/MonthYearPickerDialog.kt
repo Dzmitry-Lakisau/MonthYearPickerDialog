@@ -61,8 +61,8 @@ class MonthYearPickerDialog private constructor(
         private var minYear = 1970
         private var maxYear = Calendar.getInstance()[Calendar.YEAR]
         private var mode = Mode.MONTH_AND_YEAR
-        private var onYearChangedListener: OnYearChangedListener? = null
-        private var onMonthChangedListener: OnMonthChangedListener? = null
+        private var onMonthSelectedListener: OnMonthSelectedListener? = null
+        private var onYearSelectedListener: OnYearSelectedListener? = null
         private var monthFormat = SimpleDateFormat("LLLL", Locale.getDefault())
 
         constructor(
@@ -153,24 +153,26 @@ class MonthYearPickerDialog private constructor(
         }
 
         /**
-         * Sets the callback that will be called when user click on any month.
+         * Sets callback that will be invoked when user has selected month.
          *
-         * @param onMonthChangedListener
-         * @return Builder
+         * @param onMonthSelectedListener the [callback][MonthYearPickerDialog.OnMonthSelectedListener] that will run.
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
          */
-        fun setOnMonthChangedListener(onMonthChangedListener: OnMonthChangedListener): Builder {
-            this.onMonthChangedListener = onMonthChangedListener
+        fun setOnMonthSelectedListener(onMonthSelectedListener: OnMonthSelectedListener): Builder {
+            this.onMonthSelectedListener = onMonthSelectedListener
             return this
         }
 
         /**
-         * Sets the callback that will be called when the user select any year.
+         * Sets callback that will be invoked when user has selected year.
          *
-         * @param onYearChangedListener
-         * @return Builder
+         * @param onYearSelectedListener the [callback][MonthYearPickerDialog.OnYearSelectedListener] that will run.
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
          */
-        fun setOnYearChangedListener(onYearChangedListener: OnYearChangedListener): Builder {
-            this.onYearChangedListener = onYearChangedListener
+        fun setOnYearSelectedListener(onYearSelectedListener: OnYearSelectedListener): Builder {
+            this.onYearSelectedListener = onYearSelectedListener
             return this
         }
 
@@ -210,55 +212,58 @@ class MonthYearPickerDialog private constructor(
             }
 
             val monthYearPickerDialog = MonthYearPickerDialog(context, themeResId, onDateSetListener)
-            val monthYearPickerView = monthYearPickerDialog.monthYearPickerView
-
-            monthYearPickerView.setAnnualMode(isAnnualMode)
-            monthYearPickerView.setMonthFormat(monthFormat)
-            monthYearPickerView.setMinMonth(minMonth)
-            monthYearPickerView.setMaxMonth(maxMonth)
-            monthYearPickerView.setMinYear(minYear)
-            monthYearPickerView.setMaxYear(maxYear)
-            monthYearPickerView.setMode(mode)
-            monthYearPickerView.setSelectedMonth(selectedMonth)
-            monthYearPickerView.setSelectedYear(selectedYear)
-            monthYearPickerView.setOnMonthChangedListener(onMonthChangedListener)
-            monthYearPickerView.setOnYearChangedListener(onYearChangedListener)
+            monthYearPickerDialog.monthYearPickerView.apply {
+                onMonthSelected = { onMonthSelectedListener?.onMonthSelected(it) }
+                onYearSelected = { onYearSelectedListener?.onYearSelected(it) }
+                setAnnualMode(isAnnualMode)
+                setMinMonth(minMonth)
+                setMinYear(minYear)
+                setMaxMonth(maxMonth)
+                setMaxYear(maxYear)
+                setMode(mode)
+                setMonthFormat(monthFormat)
+                setSelectedMonth(selectedMonth)
+                setSelectedYear(selectedYear)
+            }
             return monthYearPickerDialog
         }
     }
 
     /**
-     * The callback used to indicate the user is done selecting month.
+     * Interface definition for a callback to be invoked when user has selected month and year.
      */
-    interface OnDateSetListener {
+    fun interface OnDateSetListener {
         /**
-         * @param year  The year that was set.
-         * @param month The month that was set (0-11) for compatibility with [Calendar].
+         * Called when user has selected month and year.
+         *
+         * @param year selected year.
+         * @param month selected month in range from [Calendar.JANUARY] to [Calendar.DECEMBER].
          */
         fun onDateSet(year: Int, month: Int)
     }
 
     /**
-     * The callback used to indicate the user click on month
+     * Interface definition for a callback to be invoked when user has selected month.
      */
-    interface OnMonthChangedListener {
+    fun interface OnMonthSelectedListener {
         /**
-         * @param selectedMonth The month that was set (0-11) for compatibility
-         * with [Calendar].
+         * Called when user has selected month.
+         *
+         * @param month selected month in range from [Calendar.JANUARY] to [Calendar.DECEMBER].
          */
-        fun onMonthChanged(selectedMonth: Int)
+        fun onMonthSelected(month: Int)
     }
 
     /**
-     * The callback used to indicate the user click on year.
+     * Interface definition for a callback to be invoked when user has selected year.
      */
-    interface OnYearChangedListener {
+    fun interface OnYearSelectedListener {
         /**
-         * Called upon a year change.
+         * Called when user has selected year.
          *
-         * @param selectedYear The year that was set.
+         * @param year selected year.
          */
-        fun onYearChanged(selectedYear: Int)
+        fun onYearSelected(year: Int)
     }
 
     enum class Mode {
