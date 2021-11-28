@@ -36,14 +36,13 @@ class MonthYearPickerDialog private constructor(
     }
 
     /**
-     * Build a Dialog with month and year with given context.
+     * Builder for MonthYearPickerDialog.
      *
-     * @param context  Context: the parent context
-     * @param onDateSetListener MonthPickerDialog.OnDateSetListener: the listener to call
-     * when the user sets the date
-     * @param year     the initially selected year
-     * @param month    the initially selected month (0-11 for compatibility with
-     * [Calendar]Calender.MONTH or Calendar.JANUARY, Calendar.FEBRUARY etc)
+     * @param context parent context.
+     * @param themeResId resource ID of the theme against which to inflate this dialog. Default value is [R.style.MonthYearPickerDialogStyle_Default].
+     * @param onDateSetListener the [listener][MonthYearPickerDialog.OnDateSetListener] to be invoked when user sets the date. Default value is null.
+     * @param selectedYear initially selected year. Default value is current year.
+     * @param selectedMonth initially selected month in range from [Calendar.JANUARY] to [Calendar.DECEMBER]. Default value is current month.
      */
     class Builder(
         private val context: Context,
@@ -65,6 +64,12 @@ class MonthYearPickerDialog private constructor(
         private var onYearSelectedListener: OnYearSelectedListener? = null
         private var monthFormat = SimpleDateFormat("LLLL", Locale.getDefault())
 
+        /**
+         * @param context parent context.
+         * @param onDateSetListener the [listener][MonthYearPickerDialog.OnDateSetListener] to be invoked when user sets the date. Default value is null.
+         * @param selectedYear initially selected year. Default value is current year.
+         * @param selectedMonth initially selected month in range from [Calendar.JANUARY] to [Calendar.DECEMBER]. Default value is current month.
+         */
         constructor(
             context: Context,
             onDateSetListener: OnDateSetListener? = null,
@@ -79,73 +84,82 @@ class MonthYearPickerDialog private constructor(
             selectedMonth
         )
 
+        /**
+         * Enables or disables annual mode.
+         *
+         * @param enableAnnualMode If true, every year will have months from [setMinMonth] to [setMaxMonth] enabled;
+         * if false, which is default, minimum year will have months from [setMinMonth] enabled, maximum year will have
+         * months to [setMaxMonth] enabled and every year in between will have all months enabled.
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
+         */
         fun setAnnualMode(enableAnnualMode: Boolean): Builder {
             isAnnualMode = enableAnnualMode
             return this
         }
 
         /**
-         * Maximum enabled month in picker (0-11 for compatibility with Calender.MONTH or
-         * Calendar.JANUARY, Calendar.FEBRUARY etc).
+         * Sets maximum enabled month.
          *
-         * @param maxMonth
-         * @return
+         * @param month month in range from [Calendar.JANUARY] to [Calendar.DECEMBER].
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
          */
-        fun setMaxMonth(@IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) maxMonth: Int): Builder {
-            this.maxMonth = maxMonth
+        fun setMaxMonth(@IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) month: Int): Builder {
+            maxMonth = month
             return this
         }
 
         /**
-         * Ending year in the picker.
+         * Sets maximum available year.
          *
-         * @param maxYear
-         * @return Builder
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
          */
-        fun setMaxYear(maxYear: Int): Builder {
-            this.maxYear = maxYear
+        fun setMaxYear(year: Int): Builder {
+            maxYear = year
             return this
         }
 
         /**
-         * Minimum enable month in picker (0-11 for compatibility with Calender.MONTH or
-         * Calendar.JANUARY, Calendar.FEBRUARY etc).
+         * Sets minimum enabled month.
          *
-         * @param minMonth
-         * @return Builder
+         * @param month month in range from [Calendar.JANUARY] to [Calendar.DECEMBER].
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
          */
-        fun setMinMonth(@IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) minMonth: Int): Builder {
-            this.minMonth = minMonth
+        fun setMinMonth(@IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong()) month: Int): Builder {
+            minMonth = month
             return this
         }
 
         /**
-         * Starting year in the picker.
+         * Sets minimum available year.
          *
-         * @param minYear
-         * @return Builder
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
          */
-        fun setMinYear(minYear: Int): Builder {
-            this.minYear = minYear
+        fun setMinYear(year: Int): Builder {
+            minYear = year
             return this
         }
 
         /**
-         * Date format for month name.
+         * Constructs a [SimpleDateFormat] from given pattern and
+         * default date format symbols for given locale and sets it for usage when picking months.
          *
-         * @param format
-         * @return Builder
+         * @param pattern pattern describing date and time format.
+         * @param locale locale whose date format symbols should be used.
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
          */
-        fun setMonthFormat(format: String, locale: Locale = Locale.getDefault()): Builder {
-            monthFormat = SimpleDateFormat(format, locale)
+        fun setMonthFormat(pattern: String, locale: Locale = Locale.getDefault()): Builder {
+            monthFormat = SimpleDateFormat(pattern, locale)
             return this
         }
 
         /**
-         * Date format for month name.
+         * Sets format for usage when picking months.
          *
-         * @param format
-         * @return Builder
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
          */
         fun setMonthFormat(format: SimpleDateFormat): Builder {
             monthFormat = format
@@ -176,11 +190,23 @@ class MonthYearPickerDialog private constructor(
             return this
         }
 
+        /**
+         * Sets UI mode of dialog.
+         *
+         * @param mode [Mode] that defines whether or not month and year pickers will be shown. Default value is [Mode.MONTH_AND_YEAR].
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
+         */
         fun setMode(mode: Mode): Builder {
             this.mode = mode
             return this
         }
 
+        /**
+         * Creates [MonthYearPickerDialog] after checking the entered parameters.
+         *
+         * @return [MonthYearPickerDialog].
+         */
         fun build(): MonthYearPickerDialog {
             require(minMonth >= Calendar.JANUARY && minMonth <= Calendar.DECEMBER) {
                 "Minimum month ($minMonth) is not in range from 0 (Calendar.JANUARY) to 11 (Calendar.DECEMBER)"
@@ -266,9 +292,15 @@ class MonthYearPickerDialog private constructor(
         fun onYearSelected(year: Int)
     }
 
+    /**
+     * Enum that defines UI mode of dialog.
+     */
     enum class Mode {
+        /** User can select month and year. */
+        MONTH_AND_YEAR,
+        /** User can select only month. Year picker will not be shown. */
         MONTH_ONLY,
-        YEAR_ONLY,
-        MONTH_AND_YEAR
+        /** User can select only year. Month picker will not be shown. */
+        YEAR_ONLY
     }
 }

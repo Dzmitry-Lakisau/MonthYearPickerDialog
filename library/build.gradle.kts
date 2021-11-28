@@ -1,5 +1,6 @@
 plugins {
     id("com.android.library")
+    id("org.jetbrains.dokka") version "1.6.0"
     kotlin("android")
 }
 
@@ -28,6 +29,10 @@ dependencies {
 
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.Test.androidxExtJunit)
+}
+
+tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+    outputDirectory.set(rootDir.resolve("docs/${outputDirectory.get().absolutePath.split("\\").last()}"))
 }
 
 apply {
