@@ -31,6 +31,10 @@ dependencies {
     androidTestImplementation(Dependencies.Test.androidxExtJunit)
 }
 
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    dependsOn("build")
+}
+
 tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
     outputDirectory.set(rootDir.resolve("docs/${outputDirectory.get().absolutePath.split("\\").last()}"))
 }
