@@ -10,7 +10,9 @@
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_weight="1"
+		android:ellipsize="end"
 		android:gravity="end"
+		android:lines="1"
 		android:paddingHorizontal="5dp"
 		android:textSize="34sp"
 		tools:text="June" />
