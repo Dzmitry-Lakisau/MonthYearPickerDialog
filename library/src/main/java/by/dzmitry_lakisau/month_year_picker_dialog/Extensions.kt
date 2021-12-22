@@ -1,21 +1,7 @@
 package by.dzmitry_lakisau.month_year_picker_dialog
 
-import android.content.Context
-import android.content.res.TypedArray
-import android.util.TypedValue
 import java.text.SimpleDateFormat
 import java.util.*
-
-internal fun Context.getColorFromAttribute(typedArray: TypedArray, attribute: Int, fallbackAttribute: Int): Int {
-    val color = typedArray.getColor(attribute, 0)
-    return if (color != 0) {
-        color
-    } else {
-        val outValue = TypedValue()
-        theme.resolveAttribute(fallbackAttribute, outValue, true)
-        outValue.data
-    }
-}
 
 internal fun getMonthName(month: Int, monthFormat: SimpleDateFormat): String {
     val calendar = Calendar.getInstance()

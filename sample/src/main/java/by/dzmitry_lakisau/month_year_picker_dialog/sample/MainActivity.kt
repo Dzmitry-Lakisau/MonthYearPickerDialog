@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = MonthYearPickerDialog.Builder(
             this,
-            R.style.MonthYearPickerDialogStyle,
+            R.style.Style_MonthYearPickerDialog_Orange,
             { year, month ->
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.YEAR, year)
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = MonthYearPickerDialog.Builder(
             this,
-            R.style.MonthYearPickerDialogStyle,
+            R.style.Style_MonthYearPickerDialog_Orange,
             { year, month ->
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.YEAR, year)
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = MonthYearPickerDialog.Builder(
             this,
-            R.style.MonthYearPickerDialogStyle,
+            R.style.Style_MonthYearPickerDialog_Orange,
             { year, month ->
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.YEAR, year)
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = MonthYearPickerDialog.Builder(
             this,
-            R.style.MonthYearPickerDialogStyle,
+            R.style.Style_MonthYearPickerDialog_Red,
             { year, month ->
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.YEAR, year)

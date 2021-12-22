@@ -20,6 +20,7 @@
 			android:layout_gravity="center"
 			android:ellipsize="end"
 			android:lines="1"
+			android:textColor="@color/selector_month_text_color"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"

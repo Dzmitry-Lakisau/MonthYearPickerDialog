@@ -1,31 +1,34 @@
 package by.dzmitry_lakisau.month_year_picker_dialog
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.view.LayoutInflater
+import android.graphics.drawable.ColorDrawable
 import androidx.annotation.IntRange
 import androidx.annotation.StyleRes
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.core.content.withStyledAttributes
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MonthYearPickerDialog private constructor(
     context: Context,
     @StyleRes
-    theme: Int,
+    themeResId: Int,
     private val onDateSetListener: OnDateSetListener?
-) : AlertDialog(context, theme), DialogInterface.OnClickListener {
+) : AlertDialog(context, themeResId), DialogInterface.OnClickListener {
 
-    private val monthYearPickerView: MonthYearPickerView
+    private val monthYearPickerView: MonthYearPickerView = MonthYearPickerView(ContextThemeWrapper(context, themeResId))
 
     init {
-        val view = LayoutInflater.from(context).inflate(R.layout.dialog_month_year_picker, null)
-        setView(view)
+        monthYearPickerView.context.withStyledAttributes(themeResId, R.styleable.MonthYearPickerDialog) {
+            val backgroundColor = getColor(R.styleable.MonthYearPickerDialog_monthBackgroundColorSelected, android.R.attr.colorBackgroundFloating)
+            window!!.setBackgroundDrawable(ColorDrawable(backgroundColor))
+        }
+        setView(monthYearPickerView)
 
         setButton(BUTTON_POSITIVE, context.getString(android.R.string.ok), this)
         setButton(BUTTON_NEGATIVE, context.getString(android.R.string.cancel), this)
-
-        monthYearPickerView = view.findViewById(R.id.vg_monthYearPickerView)
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
@@ -39,7 +42,7 @@ class MonthYearPickerDialog private constructor(
      * Builder for MonthYearPickerDialog.
      *
      * @param context parent context.
-     * @param themeResId resource ID of the theme against which to inflate this dialog. Default value is [R.style.MonthYearPickerDialogStyle_Default].
+     * @param themeResId resource ID of the theme against which to inflate this dialog.
      * @param onDateSetListener the [listener][MonthYearPickerDialog.OnDateSetListener] to be invoked when user sets the date. Default value is null.
      * @param selectedYear initially selected year. Default value is current year.
      * @param selectedMonth initially selected month in range from [Calendar.JANUARY] to [Calendar.DECEMBER]. Default value is current month.
@@ -63,26 +66,6 @@ class MonthYearPickerDialog private constructor(
         private var onMonthSelectedListener: OnMonthSelectedListener? = null
         private var onYearSelectedListener: OnYearSelectedListener? = null
         private var monthFormat = SimpleDateFormat("LLLL", Locale.getDefault())
-
-        /**
-         * @param context parent context.
-         * @param onDateSetListener the [listener][MonthYearPickerDialog.OnDateSetListener] to be invoked when user sets the date. Default value is null.
-         * @param selectedYear initially selected year. Default value is current year.
-         * @param selectedMonth initially selected month in range from [Calendar.JANUARY] to [Calendar.DECEMBER]. Default value is current month.
-         */
-        constructor(
-            context: Context,
-            onDateSetListener: OnDateSetListener? = null,
-            selectedYear: Int = Calendar.getInstance()[Calendar.YEAR],
-            @IntRange(from = Calendar.JANUARY.toLong(), to = Calendar.DECEMBER.toLong())
-            selectedMonth: Int = Calendar.getInstance()[Calendar.MONTH]
-        ) : this(
-            context,
-            R.style.MonthYearPickerDialogStyle_Default,
-            onDateSetListener,
-            selectedYear,
-            selectedMonth
-        )
 
         /**
          * Enables or disables annual mode.
@@ -298,8 +281,10 @@ class MonthYearPickerDialog private constructor(
     enum class Mode {
         /** User can select month and year. */
         MONTH_AND_YEAR,
+
         /** User can select only month. Year picker will not be shown. */
         MONTH_ONLY,
+
         /** User can select only year. Month picker will not be shown. */
         YEAR_ONLY
     }

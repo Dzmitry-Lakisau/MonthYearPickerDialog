@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<style name="MonthYearPickerDialogStyle" parent="MonthYearPickerDialogStyle.Default">
-		<item name="android:background">@color/black</item>
-		<item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-		<item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+	<style name="Style.MonthYearPickerDialog.Orange" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+		<item name="android:backgroundTint">#FFE9C9</item>
+		<item name="buttonBarNegativeButtonStyle">@style/Style.DialogButton.Black</item>
+		<item name="buttonBarPositiveButtonStyle">@style/Style.DialogButton.Orange</item>
+		<item name="headerBackgroundColor">@color/orange</item>
 		<item name="headerTextColor">@color/black</item>
-		<item name="headerTextColorSelected">@color/black</item>
-		<item name="monthBackgroundColorSelected">@color/black</item>
-		<item name="yearColor">@color/white</item>
-		<item name="yearColorSelected">?attr/colorAccent</item>
+		<item name="headerTextColorSelected">@color/white</item>
+		<item name="monthBackgroundColorSelected">@color/orange</item>
+		<item name="monthTextColor">@color/black</item>
+		<item name="monthTextColorDisabled">#4F000000</item>
+		<item name="monthTextColorSelected">@color/black</item>
+		<item name="yearTextColor">@color/black</item>
+		<item name="yearTextColorSelected">@color/orange</item>
 	</style>
 
-	<style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-		<item name="android:textColor">@color/purple_500</item>
-	</style>
-
-	<style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-		<item name="android:textColor">#FF0000</item>
+	<style name="Style.MonthYearPickerDialog.Red" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+		<item name="android:backgroundTint">#FFCEDD</item>
+		<item name="buttonBarNegativeButtonStyle">@style/Style.DialogButton.Black</item>
+		<item name="buttonBarPositiveButtonStyle">@style/Style.DialogButton.Red</item>
+		<item name="headerBackgroundColor">@color/red</item>
+		<item name="headerTextColor">@color/black</item>
+		<item name="headerTextColorSelected">@color/white</item>
+		<item name="monthBackgroundColorSelected">@color/red</item>
+		<item name="monthTextColor">@color/black</item>
+		<item name="monthTextColorDisabled">#4F000000</item>
+		<item name="monthTextColorSelected">@color/black</item>
+		<item name="yearTextColor">@color/black</item>
+		<item name="yearTextColorSelected">@color/red</item>
 	</style>
 
 </resources>

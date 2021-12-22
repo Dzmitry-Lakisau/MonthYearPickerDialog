@@ -3,6 +3,8 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:background="?attr/headerBackgroundColor"
+	android:backgroundTint="?attr/headerBackgroundColor"
 	android:orientation="horizontal">
 
 	<TextView
@@ -14,6 +16,7 @@
 		android:gravity="end"
 		android:lines="1"
 		android:paddingHorizontal="5dp"
+		android:textColor="@color/selector_header_text_color"
 		android:textSize="34sp"
 		tools:text="June" />
 
@@ -23,6 +26,7 @@
 		android:layout_height="wrap_content"
 		android:layout_weight="1"
 		android:paddingHorizontal="5dp"
+		android:textColor="@color/selector_header_text_color"
 		android:textSize="34sp"
 		tools:text="1993" />
 

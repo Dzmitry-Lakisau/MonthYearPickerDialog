@@ -1,13 +1,12 @@
 package by.dzmitry_lakisau.month_year_picker_dialog
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-internal class YearsAdapter(private val yearTextColorStateList: ColorStateList, private val onYearSelectedListener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<YearsAdapter.ViewHolder>() {
+internal class YearsAdapter(private val onYearSelectedListener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<YearsAdapter.ViewHolder>() {
 
     var maxYear = 0
     var minYear = 0
@@ -40,10 +39,6 @@ internal class YearsAdapter(private val yearTextColorStateList: ColorStateList, 
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        init {
-            (itemView as TextView).setTextColor(yearTextColorStateList)
-        }
 
         fun onBindViewHolder(item: Int) {
             (itemView as TextView).apply {

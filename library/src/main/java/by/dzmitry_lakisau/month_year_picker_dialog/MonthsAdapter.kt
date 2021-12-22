@@ -1,6 +1,5 @@
 package by.dzmitry_lakisau.month_year_picker_dialog
 
-import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.LayoutInflater
@@ -12,7 +11,7 @@ import com.google.android.material.textview.MaterialTextView
 import java.text.SimpleDateFormat
 import java.util.*
 
-internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList, private val onMonthSelectedListener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<MonthsAdapter.ViewHolder>() {
+internal class MonthsAdapter(private val onMonthSelectedListener: ((Int) -> Unit)? = null) : RecyclerView.Adapter<MonthsAdapter.ViewHolder>() {
 
     var isAnnualMode = false
 
@@ -94,10 +93,6 @@ internal class MonthsAdapter(private val monthTextColorStateList: ColorStateList
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val tvName: MaterialTextView = itemView.findViewById(R.id.tv_name)
-
-        init {
-            tvName.setTextColor(monthTextColorStateList)
-        }
 
         fun onBindViewHolder(item: Int) {
             tvName.text = getMonthName(item, monthFormat)

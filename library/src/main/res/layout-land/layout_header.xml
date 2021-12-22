@@ -3,6 +3,8 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="?headerBackgroundColor"
+	android:backgroundTint="?headerBackgroundColor"
 	android:orientation="vertical">
 
 	<TextView
@@ -11,6 +13,7 @@
 		android:layout_height="0dp"
 		android:layout_weight="1"
 		android:gravity="center"
+		android:textColor="@color/selector_header_text_color"
 		android:paddingHorizontal="5dp"
 		android:textSize="20sp"
 		tools:text="September" />
@@ -20,6 +23,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1"
+		android:textColor="@color/selector_header_text_color"
 		android:gravity="center"
 		android:paddingHorizontal="5dp"
 		android:textSize="20sp"
