@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
 import androidx.annotation.IntRange
+import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
@@ -15,7 +16,9 @@ class MonthYearPickerDialog private constructor(
     context: Context,
     @StyleRes
     themeResId: Int,
-    private val onDateSetListener: OnDateSetListener?
+    private val onDateSetListener: OnDateSetListener?,
+    positiveButtonText: CharSequence,
+    negativeButtonText: CharSequence
 ) : AlertDialog(context, themeResId), DialogInterface.OnClickListener {
 
     private val monthYearPickerView: MonthYearPickerView = MonthYearPickerView(ContextThemeWrapper(context, themeResId))
@@ -27,8 +30,8 @@ class MonthYearPickerDialog private constructor(
         }
         setView(monthYearPickerView)
 
-        setButton(BUTTON_POSITIVE, context.getString(android.R.string.ok), this)
-        setButton(BUTTON_NEGATIVE, context.getString(android.R.string.cancel), this)
+        setButton(BUTTON_POSITIVE, positiveButtonText, this)
+        setButton(BUTTON_NEGATIVE, negativeButtonText, this)
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
@@ -57,6 +60,8 @@ class MonthYearPickerDialog private constructor(
         private var selectedMonth: Int = Calendar.getInstance()[Calendar.MONTH]
     ) {
 
+        private var positiveButtonText: CharSequence = context.getText(android.R.string.ok)
+        private var negativeButtonText: CharSequence = context.getText(android.R.string.cancel)
         private var isAnnualMode = false
         private var minMonth = Calendar.JANUARY
         private var maxMonth = Calendar.DECEMBER
@@ -126,6 +131,18 @@ class MonthYearPickerDialog private constructor(
         }
 
         /**
+         * Sets UI mode of dialog.
+         *
+         * @param mode [Mode] that defines whether or not month and year pickers will be shown. Default value is [Mode.MONTH_AND_YEAR].
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
+         */
+        fun setMode(mode: Mode): Builder {
+            this.mode = mode
+            return this
+        }
+
+        /**
          * Constructs a [SimpleDateFormat] from given pattern and
          * default date format symbols for given locale and sets it for usage when picking months.
          *
@@ -146,6 +163,26 @@ class MonthYearPickerDialog private constructor(
          */
         fun setMonthFormat(format: SimpleDateFormat): Builder {
             monthFormat = format
+            return this
+        }
+
+        /**
+         * Sets text to display in the negative button.
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
+         */
+        fun setNegativeButton(@StringRes textId: Int): Builder {
+            negativeButtonText = context.getText(textId)
+            return this
+        }
+
+        /**
+         * Sets text to display in the negative button.
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
+         */
+        fun setNegativeButton(text: CharSequence): Builder {
+            negativeButtonText = text
             return this
         }
 
@@ -174,14 +211,22 @@ class MonthYearPickerDialog private constructor(
         }
 
         /**
-         * Sets UI mode of dialog.
-         *
-         * @param mode [Mode] that defines whether or not month and year pickers will be shown. Default value is [Mode.MONTH_AND_YEAR].
+         * Sets text to display in the positive button.
          *
          * @return This [Builder][Builder] object to allow chaining of setter methods.
          */
-        fun setMode(mode: Mode): Builder {
-            this.mode = mode
+        fun setPositiveButton(@StringRes textId: Int): Builder {
+            positiveButtonText = context.getText(textId)
+            return this
+        }
+
+        /**
+         * Sets text to display in the positive button.
+         *
+         * @return This [Builder][Builder] object to allow chaining of setter methods.
+         */
+        fun setPositiveButton(text: CharSequence): Builder {
+            positiveButtonText = text
             return this
         }
 
@@ -220,7 +265,7 @@ class MonthYearPickerDialog private constructor(
                 }
             }
 
-            val monthYearPickerDialog = MonthYearPickerDialog(context, themeResId, onDateSetListener)
+            val monthYearPickerDialog = MonthYearPickerDialog(context, themeResId, onDateSetListener, positiveButtonText, negativeButtonText)
             monthYearPickerDialog.monthYearPickerView.apply {
                 onMonthSelected = { onMonthSelectedListener?.onMonthSelected(it) }
                 onYearSelected = { onYearSelectedListener?.onYearSelected(it) }
