@@ -23,6 +23,6 @@ object Config {
     const val developerEmail = "laki_dimon@mail.ru"
     const val developerUrl = "https://github.com/Dzmitry-Lakisau"
 
-    const val licenseName = "MIT License"
-    const val licenseUrl = "https://opensource.org/licenses/MIT"
+    const val licenseName = "The Apache Software License, Version 2.0"
+    const val licenseUrl = "https://www.apache.org/licenses/LICENSE-2.0.txt"
 }
