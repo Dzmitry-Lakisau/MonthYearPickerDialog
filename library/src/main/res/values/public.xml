@@ -1,0 +1,4 @@
+<resources>
+	<!--Do not expose library resources-->
+	<public />
+</resources>
