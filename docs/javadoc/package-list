@@ -1,0 +1,9 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:by.dzmitry_lakisau.month_year_picker_dialog/MonthYearPickerDialog.Builder///PointingToDeclaration/by/dzmitry_lakisau/month_year_picker_dialog/MonthYearPickerDialog.Builder.html
+$dokka.location:by.dzmitry_lakisau.month_year_picker_dialog/MonthYearPickerDialog.Mode///PointingToDeclaration/by/dzmitry_lakisau/month_year_picker_dialog/MonthYearPickerDialog.Mode.html
+$dokka.location:by.dzmitry_lakisau.month_year_picker_dialog/MonthYearPickerDialog.OnDateSetListener///PointingToDeclaration/by/dzmitry_lakisau/month_year_picker_dialog/MonthYearPickerDialog.OnDateSetListener.html
+$dokka.location:by.dzmitry_lakisau.month_year_picker_dialog/MonthYearPickerDialog.OnMonthSelectedListener///PointingToDeclaration/by/dzmitry_lakisau/month_year_picker_dialog/MonthYearPickerDialog.OnMonthSelectedListener.html
+$dokka.location:by.dzmitry_lakisau.month_year_picker_dialog/MonthYearPickerDialog.OnYearSelectedListener///PointingToDeclaration/by/dzmitry_lakisau/month_year_picker_dialog/MonthYearPickerDialog.OnYearSelectedListener.html
+by.dzmitry_lakisau.month_year_picker_dialog
+
