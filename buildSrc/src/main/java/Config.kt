@@ -19,7 +19,7 @@ object Config {
     const val devConnectionUrl = "scm:git:ssh://github.com/Dzmitry-Lakisau/MonthYearPickerDialog.git"
 
     const val developerId = "dzmitry-lakisau"
-    const val developName = "Dzmitry Lakisau"
+    const val developerName = "Dzmitry Lakisau"
     const val developerEmail = "laki_dimon@mail.ru"
     const val developerUrl = "https://github.com/Dzmitry-Lakisau"
 

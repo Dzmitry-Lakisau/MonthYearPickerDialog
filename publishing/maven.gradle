@@ -50,7 +50,7 @@ publishing {
                 developers {
                     developer {
                         id = Config.developerId
-                        name = Config.developName
+                        name = Config.developerName
                         email = Config.developerEmail
                         url = Config.developerUrl
                     }
