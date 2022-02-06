@@ -133,12 +133,14 @@ internal class MonthYearPickerView @JvmOverloads constructor(
         this.mode = mode
         when (mode) {
             MonthYearPickerDialog.Mode.MONTH_ONLY -> {
+                monthsAdapter.isAnnualMode = true
                 tvSelectedMonth.gravity = Gravity.CENTER
                 tvSelectedYear.visibility = GONE
             }
             MonthYearPickerDialog.Mode.YEAR_ONLY -> {
                 tvSelectedMonth.visibility = GONE
                 tvSelectedYear.gravity = Gravity.CENTER
+                tvSelectedYear.isSelected = true
                 rvMonths.visibility = INVISIBLE
                 rvYears.visibility = VISIBLE
             }
