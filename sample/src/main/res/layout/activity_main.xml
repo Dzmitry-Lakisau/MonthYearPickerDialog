@@ -23,19 +23,49 @@
 			android:layout_height="wrap_content">
 
 			<androidx.constraintlayout.widget.ConstraintLayout
+				android:id="@+id/vg_dialog"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginVertical="16dp"
+				app:layout_constraintBottom_toTopOf="@id/vg_month_range"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent">
+
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tv_dialog_selected_date"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="?android:attr/textColorPrimary"
+					android:textSize="16sp"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					tools:text="11.2021" />
+
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/btn_dialog"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="32dp"
+					android:text="Standard title, custom buttons"
+					app:layout_constraintTop_toBottomOf="@id/tv_dialog_selected_date" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+			<androidx.constraintlayout.widget.ConstraintLayout
 				android:id="@+id/vg_month_range"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginVertical="32dp"
+				android:layout_marginVertical="16dp"
 				app:layout_constraintBottom_toTopOf="@id/vg_min_month_year"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent">
+				app:layout_constraintTop_toBottomOf="@id/vg_dialog">
 
 				<com.google.android.material.textview.MaterialTextView
 					android:id="@+id/tv_month_range_selected_date"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textColor="@color/black"
+					android:textColor="?android:attr/textColorPrimary"
 					android:textSize="16sp"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +86,7 @@
 				android:id="@+id/vg_min_month_year"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginVertical="32dp"
+				android:layout_marginVertical="16dp"
 				app:layout_constraintBottom_toTopOf="@id/vg_max_month_year"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/vg_month_range">
@@ -65,7 +95,7 @@
 					android:id="@+id/tv_min_month_year_selected_date"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textColor="@color/black"
+					android:textColor="?android:attr/textColorPrimary"
 					android:textSize="16sp"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +116,7 @@
 				android:id="@+id/vg_max_month_year"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginVertical="32dp"
+				android:layout_marginVertical="16dp"
 				app:layout_constraintBottom_toTopOf="@id/vg_min_max_month_year"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/vg_min_month_year">
@@ -95,7 +125,7 @@
 					android:id="@+id/tv_max_month_year_selected_date"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textColor="@color/black"
+					android:textColor="?android:attr/textColorPrimary"
 					android:textSize="16sp"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
@@ -116,8 +146,8 @@
 				android:id="@+id/vg_min_max_month_year"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginVertical="32dp"
-				app:layout_constraintBottom_toBottomOf="parent"
+				android:layout_marginVertical="16dp"
+				app:layout_constraintBottom_toTopOf="@id/vg_month_only"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/vg_max_month_year">
 
@@ -125,7 +155,7 @@
 					android:id="@+id/tv_min_max_month_year_selected_date"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textColor="@color/black"
+					android:textColor="?android:attr/textColorPrimary"
 					android:textSize="16sp"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
@@ -140,6 +170,68 @@
 					android:backgroundTint="@color/red"
 					android:text="Range between two dates"
 					app:layout_constraintTop_toBottomOf="@id/tv_min_max_month_year_selected_date" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:id="@+id/vg_month_only"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginVertical="16dp"
+				app:layout_constraintBottom_toTopOf="@id/vg_year_only"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/vg_min_max_month_year">
+
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tv_month_only_selected_date"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="?android:attr/textColorPrimary"
+					android:textSize="16sp"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					tools:text="11.2021" />
+
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/btn_month_only"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="32dp"
+					android:backgroundTint="@color/red"
+					android:text="Month only with custom format and month listener"
+					app:layout_constraintTop_toBottomOf="@id/tv_month_only_selected_date" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:id="@+id/vg_year_only"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginVertical="16dp"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/vg_min_max_month_year">
+
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/tv_year_only_selected_date"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="?android:attr/textColorPrimary"
+					android:textSize="16sp"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					tools:text="11.2021" />
+
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/btn_year_only"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="32dp"
+					android:backgroundTint="@color/red"
+					android:text="Year only with year listener"
+					app:layout_constraintTop_toBottomOf="@id/tv_year_only_selected_date" />
 
 			</androidx.constraintlayout.widget.ConstraintLayout>
 

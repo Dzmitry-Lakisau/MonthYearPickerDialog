@@ -1,3 +1,5 @@
 <resources>
-	<string name="app_name">MonthYearPickerDialog sample</string>
+	<string name="app_name" translatable="false">MonthYearPickerDialog sample</string>
+
+	<string name="set">Set</string>
 </resources>
