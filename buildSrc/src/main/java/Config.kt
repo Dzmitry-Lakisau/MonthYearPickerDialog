@@ -6,7 +6,7 @@ object Config {
     const val targetSdkVersion = 30
 
     const val versionCode = 1
-    const val versionName = "1.0.0-SNAPSHOT"
+    const val versionName = "1.0.0"
 
     const val libraryName = "MonthYearPickerDialog"
     const val libraryDescription = "Picker dialog for selecting months and years"
